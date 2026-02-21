@@ -77,7 +77,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
 
             }
@@ -107,7 +109,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
 
             }
@@ -137,7 +141,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
 
             }
@@ -167,9 +173,11 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
-                ;
+
 
             }
         });
@@ -198,7 +206,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
             }
         });
@@ -227,7 +237,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
             }
         });
@@ -256,7 +268,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
             }
         });
@@ -285,7 +299,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
             }
         });
@@ -316,7 +332,9 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    }
                 }
             }
         });
@@ -332,9 +350,7 @@ public class GamePanel extends JPanel {
                 for (JButton b : all) {
                     b.setText("");
                 }
-                Random rand = new Random();
-                int choice = rand.nextInt(2);
-                if (choice > 0)
+                if(xo.getText().equals("O Turn"))
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
@@ -345,7 +361,9 @@ public class GamePanel extends JPanel {
                 resetGrounds();
                 label.setText("Tic Tac Toe");
                 label.setBounds(203, 11, 200, 20);
-                autoPlay();
+                if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                    autoPlay();
+                }
             }
         });
         resetBut.setBounds(165, 94, 89, 23);
@@ -368,10 +386,8 @@ public class GamePanel extends JPanel {
                 for (JButton b : all) {
                     b.setText("");
                 }
-                Random rand = new Random();
-                int choice = rand.nextInt(2);
-                if (choice > 0)
-                    xo.setText("O Turn");
+                if (xo.getText().equals("O Turn"))
+                        xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
                 for (JButton b : all) {
@@ -383,7 +399,9 @@ public class GamePanel extends JPanel {
                 countO = 0;
                 label.setText("Tic Tac Toe");
                 label.setBounds(203, 11, 200, 20);
-                autoPlay();
+                if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                    autoPlay();
+                }
             }
 
         });

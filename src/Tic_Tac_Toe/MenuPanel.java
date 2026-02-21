@@ -1,7 +1,6 @@
 package Tic_Tac_Toe;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +16,7 @@ public class MenuPanel extends JPanel {
     public JButton startBut;
     public JButton oneBut;
     public JButton twoBut;
+    public JButton infiniteMode;
 
     public MenuPanel() {
         setLayout(null);
@@ -40,13 +40,17 @@ public class MenuPanel extends JPanel {
         firstField = new JTextField();
         firstField.setColumns(10);
         firstField.setBounds(312, 155, 139, 20);
+        firstField.setFont(new Font("Tahoma", Font.BOLD, 12));
         firstField.setVisible(false);
+        firstField.setBackground(new Color(255, 128, 192));
         add(firstField);
 
         secondField = new JTextField();
         secondField.setColumns(10);
         secondField.setBounds(312, 211, 139, 20);
+        secondField.setFont(new Font("Tahoma", Font.BOLD, 12));
         secondField.setVisible(false);
+        secondField.setBackground(new Color(255, 128, 192));
         add(secondField);
 
         JLabel firstLabel = new JLabel("First Player");
@@ -63,34 +67,45 @@ public class MenuPanel extends JPanel {
 
         startBut = new JButton("START");
         startBut.setFont(new Font("Tahoma", Font.BOLD, 18));
-        startBut.setBounds(142, 349, 214, 58);
+        startBut.setBounds(142, 320, 214, 58);
+        startBut.setBackground(new Color(255, 128, 192));
         add(startBut);
         startBut.setVisible(false);
+
+        infiniteMode = new JButton("Infinite Tic-Tac-Toe");
+        infiniteMode.setFont(new Font("Tahoma", Font.BOLD, 16));
+        infiniteMode.setBounds(142, 400, 214, 58);
+        infiniteMode.setBackground(new Color(255, 128, 192));
+        infiniteMode.setVisible(false);
+        add(infiniteMode);
+
 
         twoBut = new JButton("Two Players");
         twoBut.setFont(new Font("Tahoma", Font.BOLD, 12));
         twoBut.setBounds(38, 137, 139, 23);
+        twoBut.setBackground(new Color(255, 128, 192));
         add(twoBut);
 
         oneBut = new JButton("One Player");
         oneBut.setBounds(38, 175, 139, 23);
         oneBut.setFont(new Font("Tahoma", Font.BOLD, 12));
+        oneBut.setBackground(new Color(255, 128, 192));
         add(oneBut);
 
         JLabel lblNewLabel_1 = new JLabel("About Tic Tac Toe");
-        lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblNewLabel_1.setForeground(new Color(255, 0, 0));
-        lblNewLabel_1.setBounds(179, 223, 158, 16);
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lblNewLabel_1.setForeground(new Color(0, 128, 255));
+        lblNewLabel_1.setBounds(179, 230, 158, 16);
         add(lblNewLabel_1);
 
         JLabel lblNewLabel_2 = new JLabel("Tic-Tac-Toe is a simple and fun game for 2 players, X and O. ");
         lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblNewLabel_2.setBounds(38, 253, 413, 16);
+        lblNewLabel_2.setBounds(38, 253, 500, 16);
         add(lblNewLabel_2);
 
         JLabel lblNewLabel_3 = new JLabel("It is played on a 3x3 grid. Each player's goal is to make 3 in a row.");
         lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblNewLabel_3.setBounds(38, 273, 413, 16);
+        lblNewLabel_3.setBounds(38, 273, 500, 16);
         add(lblNewLabel_3);
 
         twoBut.addActionListener(new ActionListener() {
@@ -103,6 +118,7 @@ public class MenuPanel extends JPanel {
                 firstField.setText("");
                 secondField.setText("");
                 startBut.setVisible(true);
+                infiniteMode.setVisible(true);
             }
         });
 
@@ -116,7 +132,20 @@ public class MenuPanel extends JPanel {
                 firstField.setText("");
                 secondField.setText("Bot Greg");
                 startBut.setVisible(true);
+                infiniteMode.setVisible(false);
             }
         });
+
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.setColor(new Color(255, 255, 255, 180));
+        g2.fillRoundRect(20, 70, 465, 230, 25, 25);
     }
 }

@@ -20,7 +20,10 @@ public class GamePanel extends JPanel {
     public JButton b11, b12, b13, b21, b22, b23, b31, b32, b33;
     public JLabel label;
     Queue<JButton> queue = new LinkedList<JButton>();
+    Queue<JButton> queueBot = new LinkedList<JButton>();
     int contor = 0;
+    int contorBot = 0;
+    Boolean infiniteBool = false;
 
     private int countX = 0;
     private int countO = 0;
@@ -81,15 +84,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                     queue.add(b11);
                     contor++;
-                    if(label.getText().equals("Infinite Mode"))
-                        infiniteGame();
                 }
-
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b11.setActionCommand("b11");
@@ -117,14 +126,20 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
+                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
-                    }
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                     queue.add(b21);
                     contor++;
-                    if(label.getText().equals("Infinite Mode"))
-                        infiniteGame();
                 }
+                if (label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if (label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
 
             }
         });
@@ -153,14 +168,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                     queue.add(b31);
                     contor++;
-                    if(label.getText().equals("Infinite Mode"))
-                        infiniteGame();
                 }
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
 
             }
         });
@@ -189,16 +211,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                     queue.add(b32);
                     contor++;
-                    if(label.getText().equals("Infinite Mode"))
-                        infiniteGame();
                 }
-
-
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b32.setActionCommand("b32");
@@ -226,14 +253,20 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
+                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
-                    }
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
+                    queue.add(b33);
+                    contor++;
                 }
-                queue.add(b33);
-                contor++;
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteGame();
+                if (label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if (label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b33.setActionCommand("b33");
@@ -261,15 +294,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                            autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
-                }
-                queue.add(b22);
-                contor++;
-                if(label.getText().equals("Infinite Mode"))
-                    if(label.getText().equals("Infinite Mode"))
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
+                    queue.add(b22);
+                    contor++;
+                }
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b22.setActionCommand("b22");
@@ -297,14 +336,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                            autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
+                    queue.add(b12);
+                    contor++;
                 }
-                queue.add(b12);
-                contor++;
                 if(label.getText().equals("Infinite Mode"))
-                    infiniteGame();
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b12.setActionCommand("b12");
@@ -332,14 +378,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
+                    queue.add(b13);
+                    contor++;
                 }
-                queue.add(b13);
-                contor++;
                 if(label.getText().equals("Infinite Mode"))
-                    infiniteGame();
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b13.setActionCommand("b13");
@@ -369,14 +422,21 @@ public class GamePanel extends JPanel {
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
                     }
+                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
+                    queue.add(b23);
+                    contor++;
                 }
-                queue.add(b23);
-                contor++;
                 if(label.getText().equals("Infinite Mode"))
-                    infiniteGame();
+                    infiniteBool = true;
+                else if(label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
             }
         });
         b23.setActionCommand("b23");
@@ -400,13 +460,17 @@ public class GamePanel extends JPanel {
                     b.setEnabled(true);
                 }
                 resetGrounds();
-                label.setText("Tic Tac Toe");
+                if(infiniteBool)
+                    label.setText("Infinite Mode");
+                else
+                    label.setText("Tic Tac Toe");
                 label.setBounds(203, 11, 200, 20);
                 if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                     autoPlay();
                 }
                 contor = 0;
                 queue.clear();
+                contorBot = 0;
             }
         });
         resetBut.setBounds(165, 94, 89, 23);
@@ -423,7 +487,6 @@ public class GamePanel extends JPanel {
 
         back = new JButton("Back");
         back.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
                 for (JButton b : all) {
@@ -440,13 +503,17 @@ public class GamePanel extends JPanel {
                 resetGrounds();
                 countX = 0;
                 countO = 0;
-                label.setText("Tic Tac Toe");
+                if(infiniteBool)
+                    label.setText("Infinite Mode");
+                else
+                    label.setText("Tic Tac Toe");
                 label.setBounds(203, 11, 200, 20);
                 if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                     autoPlay();
                 }
                 contor = 0;
                 queue.clear();
+                contorBot = 0;
             }
 
         });
@@ -578,7 +645,7 @@ public class GamePanel extends JPanel {
 //			checkTie();
 //
 //	}
-    public void autoPlay() {
+    public JButton autoPlay() {
 
         JButton move = findWinningMove("O");
         if (move == null)
@@ -609,6 +676,8 @@ public class GamePanel extends JPanel {
 
         if (!checkWinner())
             checkTie();
+
+        return move;
     }
 
     private JButton findWinningMove(String player) {
@@ -640,7 +709,20 @@ public class GamePanel extends JPanel {
         if(contor > 5) {
             queue.poll().setText("");
         }
+    }
 
+    public void infiniteGameBot()
+    {
+        System.out.println(contor);
+        System.out.println(contorBot);
+        JButton b = autoPlay();
+        queue.add(b);
+        contorBot++;
+        int contorSum = contor + contorBot;
+
+        if(contorSum >= 5) {
+            queue.poll().setText("");
+        }
     }
 
 }

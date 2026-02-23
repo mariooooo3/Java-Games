@@ -132,7 +132,7 @@ public class MenuPanel extends JPanel {
                 firstField.setText("");
                 secondField.setText("Bot Greg");
                 startBut.setVisible(true);
-                infiniteMode.setVisible(false);
+                infiniteMode.setVisible(true);
             }
         });
 

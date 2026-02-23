@@ -49,6 +49,7 @@ public class MainFrame extends JFrame {
                     cardLayout.show(contentPane, "GAME");
                     gamePanel.player1.setText(menuPanel.firstField.getText() + "-X");
                     gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");
+                    gamePanel.label.setText("Tic Tac Toe");
                 } else {
                     System.out.println("Enter players' names");
                     JOptionPane.showMessageDialog(null, "Please enter players' names:",

@@ -262,13 +262,14 @@ public class GamePanel extends JPanel {
                 if (!bool) {
                     checkTie();
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        if(label.getText().equals("Infinite Mode"))
-                            infiniteGame();
+                            autoPlay();
                     }
                 }
                 queue.add(b22);
                 contor++;
-                infiniteGame();
+                if(label.getText().equals("Infinite Mode"))
+                    if(label.getText().equals("Infinite Mode"))
+                        infiniteGame();
             }
         });
         b22.setActionCommand("b22");
@@ -297,13 +298,13 @@ public class GamePanel extends JPanel {
                 if (!bool) {
                     checkTie();
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        if(label.getText().equals("Infinite Mode"))
-                            infiniteGame();
+                            autoPlay();
                     }
                 }
                 queue.add(b12);
                 contor++;
-                infiniteGame();
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteGame();
             }
         });
         b12.setActionCommand("b12");

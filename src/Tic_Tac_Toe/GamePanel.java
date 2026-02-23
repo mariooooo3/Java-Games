@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class GamePanel extends JPanel {
@@ -15,8 +17,10 @@ public class GamePanel extends JPanel {
     public JTextField player2;
     public JButton resetBut;
     public JButton back;
-    private JButton b11, b12, b13, b21, b22, b23, b31, b32, b33;
-    private JLabel label;
+    public JButton b11, b12, b13, b21, b22, b23, b31, b32, b33;
+    public JLabel label;
+    Queue<JButton> queue = new LinkedList<JButton>();
+    int contor = 0;
 
     private int countX = 0;
     private int countO = 0;
@@ -80,6 +84,10 @@ public class GamePanel extends JPanel {
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
                     }
+                    queue.add(b11);
+                    contor++;
+                    if(label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                 }
 
             }
@@ -112,6 +120,10 @@ public class GamePanel extends JPanel {
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
                     }
+                    queue.add(b21);
+                    contor++;
+                    if(label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                 }
 
             }
@@ -144,6 +156,10 @@ public class GamePanel extends JPanel {
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
                     }
+                    queue.add(b31);
+                    contor++;
+                    if(label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                 }
 
             }
@@ -176,6 +192,10 @@ public class GamePanel extends JPanel {
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                         autoPlay();
                     }
+                    queue.add(b32);
+                    contor++;
+                    if(label.getText().equals("Infinite Mode"))
+                        infiniteGame();
                 }
 
 
@@ -210,6 +230,10 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     }
                 }
+                queue.add(b33);
+                contor++;
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteGame();
             }
         });
         b33.setActionCommand("b33");
@@ -238,9 +262,13 @@ public class GamePanel extends JPanel {
                 if (!bool) {
                     checkTie();
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                        if(label.getText().equals("Infinite Mode"))
+                            infiniteGame();
                     }
                 }
+                queue.add(b22);
+                contor++;
+                infiniteGame();
             }
         });
         b22.setActionCommand("b22");
@@ -269,9 +297,13 @@ public class GamePanel extends JPanel {
                 if (!bool) {
                     checkTie();
                     if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
+                        if(label.getText().equals("Infinite Mode"))
+                            infiniteGame();
                     }
                 }
+                queue.add(b12);
+                contor++;
+                infiniteGame();
             }
         });
         b12.setActionCommand("b12");
@@ -303,6 +335,10 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     }
                 }
+                queue.add(b13);
+                contor++;
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteGame();
             }
         });
         b13.setActionCommand("b13");
@@ -336,6 +372,10 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     }
                 }
+                queue.add(b23);
+                contor++;
+                if(label.getText().equals("Infinite Mode"))
+                    infiniteGame();
             }
         });
         b23.setActionCommand("b23");
@@ -364,6 +404,8 @@ public class GamePanel extends JPanel {
                 if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                     autoPlay();
                 }
+                contor = 0;
+                queue.clear();
             }
         });
         resetBut.setBounds(165, 94, 89, 23);
@@ -402,6 +444,8 @@ public class GamePanel extends JPanel {
                 if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
                     autoPlay();
                 }
+                contor = 0;
+                queue.clear();
             }
 
         });
@@ -589,6 +633,13 @@ public class GamePanel extends JPanel {
                 return empty;
         }
         return null;
+    }
+
+    public void infiniteGame() {
+        if(contor > 5) {
+            queue.poll().setText("");
+        }
+
     }
 
 }

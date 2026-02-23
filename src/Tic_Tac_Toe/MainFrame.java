@@ -49,11 +49,24 @@ public class MainFrame extends JFrame {
             }
         });
 
+        menuPanel.infiniteMode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!(menuPanel.secondField.getText().isEmpty() || menuPanel.firstField.getText().isEmpty())) {
+                    cardLayout.show(contentPane, "GAME");
+                    gamePanel.player1.setText(menuPanel.firstField.getText() + "-X");
+                    gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");
+                    gamePanel.label.setText("Infinite Mode");
+                }
+                else
+                    System.out.println("Enter players' names");
+
+            }
+        });
+
         gamePanel.back.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(contentPane, "MENU");
-
             }
 
         });

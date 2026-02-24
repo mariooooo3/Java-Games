@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
         setContentPane(contentPane);
 
         BackgroundPanel backgroundPanel =
-                new BackgroundPanel("/tic_tac_toe.png");
+                new BackgroundPanel("/Tic_Tac_Toe/tic_tac_toe.png");
 
         backgroundPanel.setLayout(new BorderLayout());
 
@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
 
         cardLayout.show(contentPane, "MENU");
 
-        ImageIcon original = new ImageIcon(getClass().getResource("/smile.png"));
+        ImageIcon original = new ImageIcon(getClass().getResource("/Tic_Tac_Toe/smile.png"));
 
         Image scaled = original.getImage().getScaledInstance(
                 32, 32, Image.SCALE_SMOOTH);

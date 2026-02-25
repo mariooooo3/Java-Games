@@ -21,7 +21,7 @@ The portfolio will grow over time as I continue to build new games and experimen
 ### 🟢 Tic Tac Toe
 A Java Swing implementation of the classic game featuring multiple modes and smart AI.
 
-📁 Location: [Resources/Tic_Tac_Toe](./Resources/Tic_Tac_Toe)  
+📁 Resources: [Resources/Tic_Tac_Toe](./Resources/Tic_Tac_Toe)  
 📄 Source: [src/Tic_Tac_Toe](./src/Tic_Tac_Toe)
 
 

@@ -20,9 +20,7 @@ public class GamePanel extends JPanel {
     public JButton b11, b12, b13, b21, b22, b23, b31, b32, b33;
     public JLabel label;
     Queue<JButton> queue = new LinkedList<JButton>();
-    Queue<JButton> queueBot = new LinkedList<JButton>();
     int contor = 0;
-    int contorBot = 0;
     Boolean infiniteBool = false;
 
     private int countX = 0;
@@ -81,6 +79,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b11);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -92,8 +92,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b11);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -123,6 +121,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b21);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -133,8 +133,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b21);
-                    contor++;
                 }
                 if (label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -165,6 +163,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b31);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -176,8 +176,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b31);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -208,6 +206,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b32);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -219,8 +219,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b32);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -250,6 +248,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b33);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -260,8 +260,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b33);
-                    contor++;
                 }
                 if (label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -291,6 +289,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b22);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -302,8 +302,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b22);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -333,6 +331,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b12);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -344,8 +344,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b12);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -375,6 +373,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b13);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -386,8 +386,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b13);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -419,6 +417,8 @@ public class GamePanel extends JPanel {
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
+                queue.add(b23);
+                contor++;
                 Boolean bool = checkWinner();
                 if (!bool) {
                     checkTie();
@@ -430,8 +430,6 @@ public class GamePanel extends JPanel {
                         autoPlay();
                     } else if (label.getText().equals("Infinite Mode"))
                         infiniteGame();
-                    queue.add(b23);
-                    contor++;
                 }
                 if(label.getText().equals("Infinite Mode"))
                     infiniteBool = true;
@@ -470,7 +468,6 @@ public class GamePanel extends JPanel {
                 }
                 contor = 0;
                 queue.clear();
-                contorBot = 0;
             }
         });
         resetBut.setBounds(165, 94, 89, 23);
@@ -513,7 +510,6 @@ public class GamePanel extends JPanel {
                 }
                 contor = 0;
                 queue.clear();
-                contorBot = 0;
             }
 
         });
@@ -645,7 +641,7 @@ public class GamePanel extends JPanel {
 //			checkTie();
 //
 //	}
-    public JButton autoPlay() {
+    public void autoPlay() {
 
         JButton move = findWinningMove("O");
         if (move == null)
@@ -672,12 +668,12 @@ public class GamePanel extends JPanel {
             move.setText("O");
             move.setForeground(new Color(0, 128, 255));
             xo.setText("X Turn");
+            queue.add(move);
         }
 
         if (!checkWinner())
             checkTie();
 
-        return move;
     }
 
     private JButton findWinningMove(String player) {
@@ -711,17 +707,14 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void infiniteGameBot()
-    {
-        System.out.println(contor);
-        System.out.println(contorBot);
-        JButton b = autoPlay();
-        queue.add(b);
-        contorBot++;
-        int contorSum = contor + contorBot;
 
-        if(contorSum >= 5) {
-            queue.poll().setText("");
+    public void infiniteGameBot() {
+
+        autoPlay();
+
+        while(queue.size() > 6) {
+            JButton old = queue.poll();
+            if(old != null) old.setText("");
         }
     }
 

@@ -6,11 +6,11 @@ Tic Tac Toe is a Java desktop game designed to demonstrate **OOP principles**, e
 
 ## 🏗️ **Project Architecture**
 
-| Module                                                                                                                                                                | Link                                                | Functionality                                         |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------|:------------------------------------------------------|
-| **Main App**                                                                                                                                                          | [MainFrame.java](src/Tic_Tac_Toe/MainFrame.java)    | Application entry point & screen navigation           |
-| **GUI Panels**                                                                                                                                                        | [MenuPanel.java](src/Tic_Tac_Toe/MenuPanel.java), [BackgroundPanel.java](src/Tic_Tac_Toe/BackgroundPanel.java)  | User interface & layout rendering                     |
-| **Game Logic**                                                                                                                                                        | [GamePanel.java](src/Tic_Tac_Toe/GamePanel.java)    | Handles gameplay, win detection, scoring, and AI moves |
+| Module                                                                                                                                                                | Link                                                                           | Functionality                                         |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------|:------------------------------------------------------|
+| **Main App**                                                                                                                                                          | [MainFrame.java](MainFrame.java)                                               | Application entry point & screen navigation           |
+| **GUI Panels**                                                                                                                                                        | [MenuPanel.java](MenuPanel.java), [BackgroundPanel.java](BackgroundPanel.java) | User interface & layout rendering                     |
+| **Game Logic**                                                                                                                                                        | [GamePanel.java](GamePanel.java)                                               | Handles gameplay, win detection, scoring, and AI moves |
 |
 
 ---

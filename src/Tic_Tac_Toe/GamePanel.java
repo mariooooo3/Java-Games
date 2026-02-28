@@ -105,19 +105,25 @@ public class GamePanel extends JPanel {
         label.setBounds(203, 11, 200, 20);
         add(label);
 
-        b11 = createGameButton("b11", 10,  128, 160, 110);
+        b11 = createGameButton("b11", 10, 128, 160, 110);
         b12 = createGameButton("b12", 180, 128, 160, 110);
         b13 = createGameButton("b13", 350, 128, 160, 110);
-        b21 = createGameButton("b21", 10,  249, 160, 110);
+        b21 = createGameButton("b21", 10, 249, 160, 110);
         b22 = createGameButton("b22", 180, 249, 160, 110);
         b23 = createGameButton("b23", 350, 249, 160, 110);
-        b31 = createGameButton("b31", 10,  370, 160, 110);
+        b31 = createGameButton("b31", 10, 370, 160, 110);
         b32 = createGameButton("b32", 180, 368, 160, 110);
         b33 = createGameButton("b33", 350, 370, 160, 110);
 
-        add(b11); add(b12); add(b13);
-        add(b21); add(b22); add(b23);
-        add(b31); add(b32); add(b33);
+        add(b11);
+        add(b12);
+        add(b13);
+        add(b21);
+        add(b22);
+        add(b23);
+        add(b31);
+        add(b32);
+        add(b33);
 
         resetBut = new JButton("Reset");
         resetBut.addActionListener(new ActionListener() {
@@ -358,11 +364,13 @@ public class GamePanel extends JPanel {
     }
 
     public void infiniteGameBot() {
-        autoPlay();
+        if (!checkWinner()) {
+            autoPlay();
 
-        while (queue.size() > 6) {
-            JButton old = queue.poll();
-            if (old != null) old.setText("");
+            while (queue.size() > 6) {
+                JButton old = queue.poll();
+                if (old != null) old.setText("");
+            }
         }
     }
 }

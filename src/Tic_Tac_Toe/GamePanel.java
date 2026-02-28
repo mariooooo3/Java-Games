@@ -26,6 +26,49 @@ public class GamePanel extends JPanel {
     private int countX = 0;
     private int countO = 0;
 
+    private JButton createGameButton(String actionCommand, int x, int y, int width, int height) {
+        JButton button = new JButton("");
+        button.setBackground(new Color(207, 223, 252));
+        button.setActionCommand(actionCommand);
+        button.setFont(new Font("Tahoma", Font.BOLD, 50));
+        button.setBounds(x, y, width, height);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String s = xo.getText();
+                String parts[] = s.split(" ");
+                if (button.getText().isEmpty()) {
+                    button.setText(parts[0]);
+                    if (parts[0].equals("X"))
+                        button.setForeground(new Color(255, 128, 192));
+                    else
+                        button.setForeground(new Color(0, 128, 255));
+                }
+                if (parts[0].equals("X"))
+                    xo.setText("O Turn");
+                else
+                    xo.setText("X Turn");
+                queue.add(button);
+                contor++;
+                Boolean bool = checkWinner();
+                if (!bool) {
+                    checkTie();
+                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                            && label.getText().equals("Infinite Mode")) {
+                        infiniteGameBot();
+                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                        autoPlay();
+                    } else if (label.getText().equals("Infinite Mode"))
+                        infiniteGame();
+                }
+                if (label.getText().equals("Infinite Mode"))
+                    infiniteBool = true;
+                else if (label.getText().equals("Tic Tac Toe"))
+                    infiniteBool = false;
+            }
+        });
+        return button;
+    }
+
     public GamePanel() {
         setLayout(null);
         setBounds(0, 0, 540, 530);
@@ -62,385 +105,19 @@ public class GamePanel extends JPanel {
         label.setBounds(203, 11, 200, 20);
         add(label);
 
-        b11 = new JButton("");
-        b11.setBackground(new Color(207, 223, 252));
-        b11.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b11.getText().isEmpty()) {
-                    b11.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b11.setForeground(new Color(255, 128, 192));
-                    else
-                        b11.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b11);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b11.setActionCommand("b11");
-        b11.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b11.setBounds(10, 128, 160, 110);
-        add(b11);
+        b11 = createGameButton("b11", 10,  128, 160, 110);
+        b12 = createGameButton("b12", 180, 128, 160, 110);
+        b13 = createGameButton("b13", 350, 128, 160, 110);
+        b21 = createGameButton("b21", 10,  249, 160, 110);
+        b22 = createGameButton("b22", 180, 249, 160, 110);
+        b23 = createGameButton("b23", 350, 249, 160, 110);
+        b31 = createGameButton("b31", 10,  370, 160, 110);
+        b32 = createGameButton("b32", 180, 368, 160, 110);
+        b33 = createGameButton("b33", 350, 370, 160, 110);
 
-        b21 = new JButton("");
-        b21.setBackground(new Color(207, 223, 252));
-        b21.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b21.getText().isEmpty()) {
-                    b21.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b21.setForeground(new Color(255, 128, 192));
-                    else
-                        b21.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b21);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if (label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if (label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-
-            }
-        });
-        b21.setActionCommand("b21");
-        b21.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b21.setBounds(10, 249, 160, 110);
-        add(b21);
-
-        b31 = new JButton("");
-        b31.setBackground(new Color(207, 223, 252));
-        b31.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b31.getText().isEmpty()) {
-                    b31.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b31.setForeground(new Color(255, 128, 192));
-                    else
-                        b31.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b31);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-
-            }
-        });
-        b31.setActionCommand("b31");
-        b31.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b31.setBounds(10, 370, 160, 110);
-        add(b31);
-
-        b32 = new JButton("");
-        b32.setBackground(new Color(207, 223, 252));
-        b32.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b32.getText().isEmpty()) {
-                    b32.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b32.setForeground(new Color(255, 128, 192));
-                    else
-                        b32.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b32);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b32.setActionCommand("b32");
-        b32.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b32.setBounds(180, 368, 160, 110);
-        add(b32);
-
-        b33 = new JButton("");
-        b33.setBackground(new Color(207, 223, 252));
-        b33.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b33.getText().isEmpty()) {
-                    b33.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b33.setForeground(new Color(255, 128, 192));
-                    else
-                        b33.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b33);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if (label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if (label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b33.setActionCommand("b33");
-        b33.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b33.setBounds(350, 370, 160, 110);
-        add(b33);
-
-        b22 = new JButton("");
-        b22.setBackground(new Color(207, 223, 252));
-        b22.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b22.getText().isEmpty()) {
-                    b22.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b22.setForeground(new Color(255, 128, 192));
-                    else
-                        b22.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b22);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b22.setActionCommand("b22");
-        b22.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b22.setBounds(180, 249, 160, 110);
-        add(b22);
-
-        b12 = new JButton("");
-        b12.setBackground(new Color(207, 223, 252));
-        b12.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b12.getText().isEmpty()) {
-                    b12.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b12.setForeground(new Color(255, 128, 192));
-                    else
-                        b12.setForeground(new Color(0, 128, 255));
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b12);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b12.setActionCommand("b12");
-        b12.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b12.setBounds(180, 128, 160, 110);
-        add(b12);
-
-        b13 = new JButton("");
-        b13.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b13.getText().isEmpty()) {
-                    b13.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b13.setForeground(new Color(255, 128, 192));
-                    else
-                        b13.setForeground(new Color(0, 128, 255));
-
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b13);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b13.setActionCommand("b13");
-        b13.setBackground(new Color(207, 223, 252));
-        b13.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b13.setBounds(350, 128, 160, 110);
-        add(b13);
-
-        b23 = new JButton("");
-        b23.setBackground(new Color(207, 223, 252));
-        b23.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String s = xo.getText();
-                String parts[] = s.split(" ");
-                if (b23.getText().isEmpty()) {
-                    b23.setText(parts[0]);
-                    if (parts[0].equals("X"))
-                        b23.setForeground(new Color(255, 128, 192));
-                    else
-                        b23.setForeground(new Color(0, 128, 255));
-
-                }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(b23);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    }
-                    else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if(label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if(label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
-            }
-        });
-        b23.setActionCommand("b23");
-        b23.setFont(new Font("Tahoma", Font.BOLD, 50));
-        b23.setBounds(350, 249, 160, 110);
-        add(b23);
+        add(b11); add(b12); add(b13);
+        add(b21); add(b22); add(b23);
+        add(b31); add(b32); add(b33);
 
         resetBut = new JButton("Reset");
         resetBut.addActionListener(new ActionListener() {
@@ -449,7 +126,7 @@ public class GamePanel extends JPanel {
                 for (JButton b : all) {
                     b.setText("");
                 }
-                if(xo.getText().equals("O Turn"))
+                if (xo.getText().equals("O Turn"))
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
@@ -458,7 +135,7 @@ public class GamePanel extends JPanel {
                     b.setEnabled(true);
                 }
                 resetGrounds();
-                if(infiniteBool)
+                if (infiniteBool)
                     label.setText("Infinite Mode");
                 else
                     label.setText("Tic Tac Toe");
@@ -490,7 +167,7 @@ public class GamePanel extends JPanel {
                     b.setText("");
                 }
                 if (xo.getText().equals("O Turn"))
-                        xo.setText("O Turn");
+                    xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
                 for (JButton b : all) {
@@ -500,7 +177,7 @@ public class GamePanel extends JPanel {
                 resetGrounds();
                 countX = 0;
                 countO = 0;
-                if(infiniteBool)
+                if (infiniteBool)
                     label.setText("Infinite Mode");
                 else
                     label.setText("Tic Tac Toe");
@@ -511,13 +188,11 @@ public class GamePanel extends JPanel {
                 contor = 0;
                 queue.clear();
             }
-
         });
         back.setBounds(260, 94, 89, 23);
         back.setForeground(new Color(0, 128, 255));
         back.setBackground(new Color(207, 223, 252));
         add(back);
-
     }
 
     public boolean checkWinner() {
@@ -614,35 +289,12 @@ public class GamePanel extends JPanel {
                 for (JButton b1 : all) {
                     b1.setBackground(Color.yellow);
                     b1.setEnabled(false);
-
                 }
             }
         }
     }
 
-    //	public void autoPlay() { metoda fara ai
-//		ArrayList<JButton> list = new ArrayList<>();
-//		JButton[] all = { b11, b12, b13, b21, b22, b23, b31, b32, b33 };
-//		int count = 0;
-//
-//		for (JButton b : all) {
-//			if (b.getText().isEmpty()) {
-//				count++;
-//				list.add(b);
-//			}
-//		}
-//		Random rand = new Random();
-//		int choice = rand.nextInt(count);
-//		list.get(choice).setForeground(new Color(0, 128, 255));
-//		list.get(choice).setText("O");
-//		xo.setText("X Turn");
-//		Boolean bool = checkWinner();
-//		if (!bool)
-//			checkTie();
-//
-//	}
     public void autoPlay() {
-
         JButton move = findWinningMove("O");
         if (move == null)
             move = findWinningMove("X");
@@ -673,11 +325,9 @@ public class GamePanel extends JPanel {
 
         if (!checkWinner())
             checkTie();
-
     }
 
     private JButton findWinningMove(String player) {
-
         JButton[][] lines = {
                 {b11, b12, b13}, {b21, b22, b23}, {b31, b32, b33},
                 {b11, b21, b31}, {b12, b22, b32}, {b13, b23, b33},
@@ -702,20 +352,17 @@ public class GamePanel extends JPanel {
     }
 
     public void infiniteGame() {
-        if(contor > 5) {
+        if (contor > 5) {
             queue.poll().setText("");
         }
     }
 
-
     public void infiniteGameBot() {
-
         autoPlay();
 
-        while(queue.size() > 6) {
+        while (queue.size() > 6) {
             JButton old = queue.poll();
-            if(old != null) old.setText("");
+            if (old != null) old.setText("");
         }
     }
-
 }

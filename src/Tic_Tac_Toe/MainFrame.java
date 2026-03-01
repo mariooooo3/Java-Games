@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please enter players' names:",
                             "Missing Names", JOptionPane.ERROR_MESSAGE, icon);
                 }
-                if (gamePanel.player2.getText().equals("Bot Greg-O") && gamePanel.xo.getText().equals("O Turn")) {
+                if (gamePanel.player2.getText().contains("Bot") && gamePanel.xo.getText().equals("O Turn")) {
                     gamePanel.autoPlay();
                 }
             }
@@ -73,7 +73,7 @@ public class MainFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please enter players' names:",
                             "Missing Names", JOptionPane.ERROR_MESSAGE, icon);
                 }
-                if (gamePanel.player2.getText().equals("Bot Greg-O") && gamePanel.xo.getText().equals("O Turn")
+                if (gamePanel.player2.getText().contains("Bot") && gamePanel.xo.getText().equals("O Turn")
                         && gamePanel.label.getText().equals("Infinite Mode")) {
                     gamePanel.infiniteGameBot();
                 }

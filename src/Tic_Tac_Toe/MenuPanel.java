@@ -3,6 +3,7 @@ package Tic_Tac_Toe;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -124,13 +125,14 @@ public class MenuPanel extends JPanel {
 
         oneBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String botName = getBotName();
                 playersText.setVisible(true);
                 firstLabel.setVisible(true);
                 firstField.setVisible(true);
                 secondLabel.setVisible(false);
                 secondField.setVisible(false);
                 firstField.setText("");
-                secondField.setText("Bot Greg");
+                secondField.setText(botName);
                 startBut.setVisible(true);
                 infiniteMode.setVisible(true);
             }
@@ -147,5 +149,20 @@ public class MenuPanel extends JPanel {
 
         g2.setColor(new Color(255, 255, 255, 180));
         g2.fillRoundRect(20, 70, 465, 230, 25, 25);
+    }
+
+    public String getBotName()
+    {
+        Random rand = new Random();
+        int choice = rand.nextInt(5);
+
+        switch (choice) {
+            case 0 : return  "Bot Greg";
+            case 1 : return  "Bot Marc";
+            case 2 : return  "Bot Roger";
+            case 3 : return  "Bot Bob";
+            case 4 : return  "Bot Jack";
+        }
+        return "";
     }
 }

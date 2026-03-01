@@ -42,28 +42,29 @@ public class GamePanel extends JPanel {
                         button.setForeground(new Color(255, 128, 192));
                     else
                         button.setForeground(new Color(0, 128, 255));
+
+                    queue.add(button);
+                    if (parts[0].equals("X"))
+                        xo.setText("O Turn");
+                    else
+                        xo.setText("X Turn");
+                    contor++;
+                    Boolean bool = checkWinner();
+                    if (!bool) {
+                        checkTie();
+                        if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
+                                && label.getText().equals("Infinite Mode")) {
+                            infiniteGameBot();
+                        } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
+                            autoPlay();
+                        } else if (label.getText().equals("Infinite Mode"))
+                            infiniteGame();
+                    }
+                    if (label.getText().equals("Infinite Mode"))
+                        infiniteBool = true;
+                    else if (label.getText().equals("Tic Tac Toe"))
+                        infiniteBool = false;
                 }
-                if (parts[0].equals("X"))
-                    xo.setText("O Turn");
-                else
-                    xo.setText("X Turn");
-                queue.add(button);
-                contor++;
-                Boolean bool = checkWinner();
-                if (!bool) {
-                    checkTie();
-                    if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")
-                            && label.getText().equals("Infinite Mode")) {
-                        infiniteGameBot();
-                    } else if (player2.getText().contains("Bot") && xo.getText().equals("O Turn")) {
-                        autoPlay();
-                    } else if (label.getText().equals("Infinite Mode"))
-                        infiniteGame();
-                }
-                if (label.getText().equals("Infinite Mode"))
-                    infiniteBool = true;
-                else if (label.getText().equals("Tic Tac Toe"))
-                    infiniteBool = false;
             }
         });
         return button;
@@ -364,8 +365,8 @@ public class GamePanel extends JPanel {
     }
 
     public void infiniteGameBot() {
+        autoPlay();
         if (!checkWinner()) {
-            autoPlay();
 
             while (queue.size() > 6) {
                 JButton old = queue.poll();

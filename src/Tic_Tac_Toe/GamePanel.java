@@ -45,12 +45,12 @@ public class GamePanel extends JPanel {
                 String s = xo.getText();
                 String parts[] = s.split(" ");
                 if (button.getText().isEmpty()) {
+                    SoundManager.playBut();
                     button.setText(parts[0]);
                     if (parts[0].equals("X"))
                         button.setForeground(new Color(255, 128, 192));
                     else
                         button.setForeground(new Color(0, 128, 255));
-
                     queue.add(button);
                     if (parts[0].equals("X"))
                         xo.setText("O Turn");

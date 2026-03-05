@@ -25,8 +25,12 @@ public class SoundManager {
         playNotes(new int[]{55, 50}, new int[]{400, 1000});
     }
 
-    public static void playBut() {
+    public static void playButX() {
         playNotes(new int[]{72}, new int[]{100});
+    }
+
+    public static void playButY() {
+        playNotes(new int[]{80}, new int[]{100});
     }
 
     private static void playNotes(int[] notes, int[] durations) {

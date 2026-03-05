@@ -17,6 +17,7 @@ public class GamePanel extends JPanel {
     public JTextField player2;
     public JButton resetBut;
     public JButton back;
+    public JCheckBox check;
     public JButton b11, b12, b13, b21, b22, b23, b31, b32, b33;
     public JLabel label;
     Queue<JButton> queue = new LinkedList<JButton>();
@@ -90,7 +91,7 @@ public class GamePanel extends JPanel {
         player1.setCaretColor(FG_TEXT);
         player1.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         player1.setColumns(10);
-        player1.setBounds(10, 64, 86, 20);
+        player1.setBounds(10, 64, 110, 20);
         player1.setEditable(false);
         add(player1);
 
@@ -101,7 +102,7 @@ public class GamePanel extends JPanel {
         xo.setCaretColor(FG_TEXT);
         xo.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         xo.setColumns(10);
-        xo.setBounds(214, 63, 86, 20);
+        xo.setBounds(214, 63, 90, 20);
         add(xo);
 
         player2 = new JTextField();
@@ -111,7 +112,7 @@ public class GamePanel extends JPanel {
         player2.setCaretColor(FG_TEXT);
         player2.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         player2.setColumns(10);
-        player2.setBounds(424, 64, 86, 20);
+        player2.setBounds(404, 64, 110, 20);
         player2.setEditable(false);
         add(player2);
 
@@ -140,6 +141,60 @@ public class GamePanel extends JPanel {
         add(b31);
         add(b32);
         add(b33);
+
+        check = new JCheckBox("Dark Theme");
+        check.setFont(new Font("Tahoma", Font.BOLD, 12));
+        check.setForeground(FG_TEXT);
+        check.setBackground(BG_BUTTON);
+        check.setSelected(true);
+        check.setBounds(10, 40, 110, 20);
+        add(check);
+        check.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
+                if (check.isSelected()) {
+                    player1.setForeground(FG_TEXT);
+                    player1.setBackground(BG_BUTTON);
+                    xo.setForeground(FG_TEXT);
+                    xo.setBackground(BG_BUTTON);
+                    player2.setBackground(BG_BUTTON);
+                    player2.setForeground(FG_TEXT);
+                    resetBut.setForeground(FG_TEXT);
+                    resetBut.setBackground(BG_BUTTON);
+                    back.setForeground(FG_TEXT);
+                    back.setBackground(BG_BUTTON);
+                    check.setForeground(FG_TEXT);
+                    check.setBackground(BG_BUTTON);
+                    setBackground(BG_MAIN);
+                    label.setForeground(FG_TEXT);
+                    for(JButton b : all)
+                    {
+                        b.setBackground(BG_CELL);
+                    }
+
+                } else {
+                    player1.setForeground(new Color(0, 128, 255));
+                    player1.setBackground(new Color(159, 196, 255));
+                    xo.setForeground(new Color(0, 128, 255));
+                    xo.setBackground(new Color(159, 196, 255));
+                    player2.setBackground(new Color(159, 196, 255));
+                    player2.setForeground(new Color(0, 128, 255));
+                    resetBut.setForeground(new Color(0, 128, 255));
+                    resetBut.setBackground(new Color(159, 196, 255));
+                    back.setForeground(new Color(0, 128, 255));
+                    back.setBackground(new Color(159, 196, 255));
+                    check.setForeground(new Color(0, 128, 255));
+                    check.setBackground(new Color(159, 196, 255));
+                    setBackground(new Color(207, 223, 252));
+                    label.setForeground(new Color(0, 128, 255));
+                    for(JButton b : all)
+                    {
+                        b.setBackground(new Color(159, 196, 255));
+                    }
+                }
+            }
+        });
+
 
         resetBut = new JButton("Reset");
         resetBut.addActionListener(new ActionListener() {
@@ -225,41 +280,66 @@ public class GamePanel extends JPanel {
 
     public boolean checkWinner() {
         Color winBg = new Color(61, 43, 107);
+        Color winWhite = new Color(100, 160, 255);
         Color winFg = new Color(255, 255, 255);
         String t11 = b11.getText(), t12 = b12.getText(), t13 = b13.getText();
         String t21 = b21.getText(), t22 = b22.getText(), t23 = b23.getText();
         String t31 = b31.getText(), t32 = b32.getText(), t33 = b33.getText();
 
         if (!t11.isEmpty() && t11.equals(t12) && t12.equals(t13)) {
-            highlight(b11, b12, b13, winBg, winFg);
+            if(check.isSelected())
+                highlight(b11, b12, b13, winBg, winFg);
+            else
+                highlight(b11, b12, b13, winWhite, winFg);
             updateScore(t11);
             return true;
         } else if (!t21.isEmpty() && t21.equals(t22) && t22.equals(t23)) {
-            highlight(b21, b22, b23, winBg, winFg);
+            if(check.isSelected())
+                highlight(b21, b22, b23, winBg, winFg);
+            else
+                highlight(b21, b22, b23, winWhite, winFg);
             updateScore(t21);
             return true;
         } else if (!t31.isEmpty() && t31.equals(t32) && t32.equals(t33)) {
-            highlight(b31, b32, b33, winBg, winFg);
+            if(check.isSelected())
+                highlight(b31, b32, b33, winBg, winFg);
+            else
+                highlight(b31, b32, b33, winWhite, winFg);
             updateScore(t31);
             return true;
         } else if (!t11.isEmpty() && t11.equals(t21) && t21.equals(t31)) {
-            highlight(b11, b21, b31, winBg, winFg);
+            if(check.isSelected())
+                highlight(b11, b21, b31, winBg, winFg);
+            else
+                highlight(b11, b21, b31, winWhite, winFg);
             updateScore(t11);
             return true;
         } else if (!t12.isEmpty() && t12.equals(t22) && t22.equals(t32)) {
-            highlight(b12, b22, b32, winBg, winFg);
+            if(check.isSelected())
+                highlight(b12, b22, b32, winBg, winFg);
+            else
+                highlight(b12, b22, b32, winWhite, winFg);
             updateScore(t12);
             return true;
         } else if (!t13.isEmpty() && t13.equals(t23) && t23.equals(t33)) {
-            highlight(b13, b23, b33, winBg, winFg);
+            if(check.isSelected())
+                highlight(b13, b23, b33, winBg, winFg);
+            else
+                highlight(b13, b23, b33, winWhite, winFg);
             updateScore(t13);
             return true;
         } else if (!t11.isEmpty() && t11.equals(t22) && t22.equals(t33)) {
-            highlight(b11, b22, b33, winBg, winFg);
+            if(check.isSelected())
+                highlight(b11, b22, b33, winBg, winFg);
+            else
+                highlight(b11, b22, b33, winWhite, winFg);
             updateScore(t11);
             return true;
         } else if (!t13.isEmpty() && t13.equals(t22) && t22.equals(t31)) {
-            highlight(b13, b22, b31, winBg, winFg);
+            if(check.isSelected())
+                highlight(b13, b22, b31, winBg, winFg);
+            else
+                highlight(b13, b22, b31, winWhite, winFg);
             updateScore(t13);
             return true;
         }
@@ -285,9 +365,18 @@ public class GamePanel extends JPanel {
     public void resetGrounds() {
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
         for (JButton b : all) {
-            b.setBackground(BG_CELL);
-            b.setOpaque(true);
-            b.setBorderPainted(false);
+            if(check.isSelected()) {
+                b.setBackground(BG_CELL);
+                b.setOpaque(true);
+                b.setBorderPainted(false);
+            }
+            else
+            {
+                b.setBackground(new Color(159, 196, 255));
+                b.setOpaque(true);
+                b.setBorderPainted(false);
+
+            }
         }
     }
 
@@ -315,9 +404,17 @@ public class GamePanel extends JPanel {
             label.setText("!!Tie Game!!");
             SoundManager.playTie();
             for (JButton b1 : all) {
-                b1.setBackground(new Color(74, 63, 107));
-                b1.setForeground(new Color(200, 210, 255));
-                b1.setEnabled(false);
+                if(check.isSelected()) {
+                    b1.setBackground(new Color(74, 63, 107));
+                    b1.setForeground(new Color(200, 210, 255));
+                    b1.setEnabled(false);
+                }
+                else
+                {
+                    b1.setBackground(new Color(180, 180, 220));
+                    b1.setForeground(new Color(200, 210, 255));
+                    b1.setEnabled(false);
+                }
             }
         }
     }

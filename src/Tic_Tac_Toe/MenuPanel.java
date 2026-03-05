@@ -139,6 +139,7 @@ public class MenuPanel extends JPanel {
         });
 
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -151,17 +152,21 @@ public class MenuPanel extends JPanel {
         g2.fillRoundRect(20, 70, 465, 230, 25, 25);
     }
 
-    public String getBotName()
-    {
+    public String getBotName() {
         Random rand = new Random();
         int choice = rand.nextInt(5);
 
         switch (choice) {
-            case 0 : return  "Bot Greg";
-            case 1 : return  "Bot Marc";
-            case 2 : return  "Bot Roger";
-            case 3 : return  "Bot Bob";
-            case 4 : return  "Bot Jack";
+            case 0:
+                return "Bot Greg";
+            case 1:
+                return "Bot Marc";
+            case 2:
+                return "Bot Roger";
+            case 3:
+                return "Bot Bob";
+            case 4:
+                return "Bot Jack";
         }
         return "";
     }

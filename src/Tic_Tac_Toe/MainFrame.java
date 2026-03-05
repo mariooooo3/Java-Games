@@ -3,6 +3,7 @@ package Tic_Tac_Toe;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.*;
@@ -15,6 +16,7 @@ public class MainFrame extends JFrame {
 
     interface DwmApi extends Library {
         DwmApi INSTANCE = Native.load("dwmapi", DwmApi.class);
+
         int DwmSetWindowAttribute(HWND hwnd, int dwAttribute, IntByReference pvAttribute, int cbAttribute);
     }
 

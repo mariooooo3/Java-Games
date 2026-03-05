@@ -273,6 +273,7 @@ public class GamePanel extends JPanel {
         b2.setForeground(fg);
         b3.setBackground(bg);
         b3.setForeground(fg);
+        SoundManager.playWin();
         disableButtons();
     }
 
@@ -312,6 +313,7 @@ public class GamePanel extends JPanel {
         }
         if (bool) {
             label.setText("!!Tie Game!!");
+            SoundManager.playTie();
             for (JButton b1 : all) {
                 b1.setBackground(new Color(74, 63, 107));
                 b1.setForeground(new Color(200, 210, 255));

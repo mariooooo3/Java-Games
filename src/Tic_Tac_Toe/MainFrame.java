@@ -3,11 +3,30 @@ package Tic_Tac_Toe;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.platform.win32.WinNT.HANDLE;
+import com.sun.jna.*;
+import com.sun.jna.ptr.IntByReference;
 
 public class MainFrame extends JFrame {
 
     private JPanel contentPane;
     private CardLayout cardLayout;
+
+    interface DwmApi extends Library {
+        DwmApi INSTANCE = Native.load("dwmapi", DwmApi.class);
+        int DwmSetWindowAttribute(HWND hwnd, int dwAttribute, IntByReference pvAttribute, int cbAttribute);
+    }
+
+    private void setDarkTitleBar() {
+        try {
+            HWND hwnd = new HWND(Native.getWindowPointer(this));
+            IntByReference darkMode = new IntByReference(1);
+            DwmApi.INSTANCE.DwmSetWindowAttribute(hwnd, 20, darkMode, 4);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public MainFrame() {
         setTitle("Tic Tac Toe");
@@ -21,7 +40,6 @@ public class MainFrame extends JFrame {
 
         BackgroundPanel backgroundPanel =
                 new BackgroundPanel("/Tic_Tac_Toe/tic_tac_toe.png");
-
         backgroundPanel.setLayout(new BorderLayout());
 
         MenuPanel menuPanel = new MenuPanel();
@@ -36,12 +54,8 @@ public class MainFrame extends JFrame {
         cardLayout.show(contentPane, "MENU");
 
         ImageIcon original = new ImageIcon(getClass().getResource("/Tic_Tac_Toe/smile.png"));
-
-        Image scaled = original.getImage().getScaledInstance(
-                32, 32, Image.SCALE_SMOOTH);
-
+        Image scaled = original.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(scaled);
-
 
         menuPanel.startBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +65,6 @@ public class MainFrame extends JFrame {
                     gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");
                     gamePanel.label.setText("Tic Tac Toe");
                 } else {
-                    System.out.println("Enter players' names");
                     JOptionPane.showMessageDialog(null, "Please enter players' names:",
                             "Missing Names", JOptionPane.ERROR_MESSAGE, icon);
                 }
@@ -69,7 +82,6 @@ public class MainFrame extends JFrame {
                     gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");
                     gamePanel.label.setText("Infinite Mode");
                 } else {
-                    System.out.println("Enter players' names");
                     JOptionPane.showMessageDialog(null, "Please enter players' names:",
                             "Missing Names", JOptionPane.ERROR_MESSAGE, icon);
                 }
@@ -81,13 +93,10 @@ public class MainFrame extends JFrame {
         });
 
         gamePanel.back.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(contentPane, "MENU");
             }
-
         });
-
     }
 
     public static void main(String[] args) {
@@ -95,6 +104,7 @@ public class MainFrame extends JFrame {
             public void run() {
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
+                frame.setDarkTitleBar();
             }
         });
     }

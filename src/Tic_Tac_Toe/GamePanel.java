@@ -26,12 +26,20 @@ public class GamePanel extends JPanel {
     private int countX = 0;
     private int countO = 0;
 
+    private static final Color BG_MAIN = new Color(26, 26, 46);
+    private static final Color BG_CELL = new Color(22, 33, 62);
+    private static final Color BG_BUTTON = new Color(15, 52, 96);
+    private static final Color FG_TEXT = new Color(200, 210, 255);
+
     private JButton createGameButton(String actionCommand, int x, int y, int width, int height) {
         JButton button = new JButton("");
-        button.setBackground(new Color(207, 223, 252));
+        button.setBackground(BG_CELL);
         button.setActionCommand(actionCommand);
         button.setFont(new Font("Tahoma", Font.BOLD, 50));
         button.setBounds(x, y, width, height);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setOpaque(true);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String s = xo.getText();
@@ -73,12 +81,14 @@ public class GamePanel extends JPanel {
     public GamePanel() {
         setLayout(null);
         setBounds(0, 0, 540, 530);
-        setBackground(new Color(207, 223, 252));
+        setBackground(BG_MAIN);
 
         player1 = new JTextField();
         player1.setFont(new Font("Tahoma", Font.BOLD, 12));
-        player1.setForeground(new Color(0, 128, 255));
-        player1.setBackground(new Color(207, 223, 252));
+        player1.setForeground(FG_TEXT);
+        player1.setBackground(BG_BUTTON);
+        player1.setCaretColor(FG_TEXT);
+        player1.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         player1.setColumns(10);
         player1.setBounds(10, 64, 86, 20);
         player1.setEditable(false);
@@ -86,16 +96,20 @@ public class GamePanel extends JPanel {
 
         xo = new JTextField();
         xo.setFont(new Font("Tahoma", Font.BOLD, 12));
-        xo.setForeground(new Color(0, 128, 255));
-        xo.setBackground(new Color(207, 223, 252));
+        xo.setForeground(FG_TEXT);
+        xo.setBackground(BG_BUTTON);
+        xo.setCaretColor(FG_TEXT);
+        xo.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         xo.setColumns(10);
         xo.setBounds(214, 63, 86, 20);
         add(xo);
 
         player2 = new JTextField();
         player2.setFont(new Font("Tahoma", Font.BOLD, 12));
-        player2.setBackground(new Color(207, 223, 252));
-        player2.setForeground(new Color(0, 128, 255));
+        player2.setForeground(FG_TEXT);
+        player2.setBackground(BG_BUTTON);
+        player2.setCaretColor(FG_TEXT);
+        player2.setBorder(BorderFactory.createLineBorder(new Color(15, 52, 96), 1));
         player2.setColumns(10);
         player2.setBounds(424, 64, 86, 20);
         player2.setEditable(false);
@@ -103,6 +117,7 @@ public class GamePanel extends JPanel {
 
         label = new JLabel("Tic Tac Toe");
         label.setFont(new Font("Tahoma", Font.BOLD, 18));
+        label.setForeground(FG_TEXT);
         label.setBounds(203, 11, 200, 20);
         add(label);
 
@@ -155,8 +170,11 @@ public class GamePanel extends JPanel {
             }
         });
         resetBut.setBounds(165, 94, 89, 23);
-        resetBut.setForeground(new Color(0, 128, 255));
-        resetBut.setBackground(new Color(207, 223, 252));
+        resetBut.setForeground(FG_TEXT);
+        resetBut.setBackground(BG_BUTTON);
+        resetBut.setFocusPainted(false);
+        resetBut.setBorderPainted(false);
+        resetBut.setOpaque(true);
         add(resetBut);
 
         Random rand = new Random();
@@ -197,14 +215,17 @@ public class GamePanel extends JPanel {
             }
         });
         back.setBounds(260, 94, 89, 23);
-        back.setForeground(new Color(0, 128, 255));
-        back.setBackground(new Color(207, 223, 252));
+        back.setForeground(FG_TEXT);
+        back.setBackground(BG_BUTTON);
+        back.setFocusPainted(false);
+        back.setBorderPainted(false);
+        back.setOpaque(true);
         add(back);
     }
 
     public boolean checkWinner() {
-        Color winBg = new Color(0, 255, 128);
-        Color winFg = new Color(0, 125, 32);
+        Color winBg = new Color(61, 43, 107);
+        Color winFg = new Color(255, 255, 255);
         String t11 = b11.getText(), t12 = b12.getText(), t13 = b13.getText();
         String t21 = b21.getText(), t22 = b22.getText(), t23 = b23.getText();
         String t31 = b31.getText(), t32 = b32.getText(), t33 = b33.getText();
@@ -257,15 +278,15 @@ public class GamePanel extends JPanel {
 
     private void disableButtons() {
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
-        for (JButton b : all) {
-            b.setEnabled(false);
-        }
+        for (JButton b : all) b.setEnabled(false);
     }
 
     public void resetGrounds() {
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
         for (JButton b : all) {
-            b.setBackground(new Color(207, 223, 252));
+            b.setBackground(BG_CELL);
+            b.setOpaque(true);
+            b.setBorderPainted(false);
         }
     }
 
@@ -286,52 +307,46 @@ public class GamePanel extends JPanel {
     public void checkTie() {
         boolean bool = true;
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
-        {
-            for (JButton b : all) {
-                if (b.getText().isEmpty())
-                    bool = false;
-            }
-            if (bool) {
-                label.setText("!!Tie Game!!");
-                for (JButton b1 : all) {
-                    b1.setBackground(Color.yellow);
-                    b1.setEnabled(false);
-                }
+        for (JButton b : all) {
+            if (b.getText().isEmpty()) bool = false;
+        }
+        if (bool) {
+            label.setText("!!Tie Game!!");
+            for (JButton b1 : all) {
+                b1.setBackground(new Color(74, 63, 107));
+                b1.setForeground(new Color(200, 210, 255));
+                b1.setEnabled(false);
             }
         }
     }
 
     public void autoPlay() {
         JButton move = findWinningMove("O");
-        if (move == null)
-            move = findWinningMove("X");
-
-        if (move == null && b22.getText().isEmpty())
-            move = b22;
-
+        if (move == null) move = findWinningMove("X");
+        if (move == null && b22.getText().isEmpty()) move = b22;
         if (move == null) {
             JButton[] corners = {b11, b13, b31, b33};
             for (JButton b : corners)
-                if (b.getText().isEmpty())
+                if (b.getText().isEmpty()) {
                     move = b;
+                    break;
+                }
         }
-
         if (move == null) {
             JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
             for (JButton b : all)
-                if (b.getText().isEmpty())
+                if (b.getText().isEmpty()) {
                     move = b;
+                    break;
+                }
         }
-
         if (move != null) {
             move.setText("O");
             move.setForeground(new Color(0, 128, 255));
             xo.setText("X Turn");
             queue.add(move);
         }
-
-        if (!checkWinner())
-            checkTie();
+        if (!checkWinner()) checkTie();
     }
 
     private JButton findWinningMove(String player) {
@@ -340,34 +355,25 @@ public class GamePanel extends JPanel {
                 {b11, b21, b31}, {b12, b22, b32}, {b13, b23, b33},
                 {b11, b22, b33}, {b13, b22, b31}
         };
-
         for (JButton[] line : lines) {
             int countPlayer = 0;
             JButton empty = null;
-
             for (JButton b : line) {
-                if (b.getText().equals(player))
-                    countPlayer++;
-                else if (b.getText().isEmpty())
-                    empty = b;
+                if (b.getText().equals(player)) countPlayer++;
+                else if (b.getText().isEmpty()) empty = b;
             }
-
-            if (countPlayer == 2 && empty != null)
-                return empty;
+            if (countPlayer == 2 && empty != null) return empty;
         }
         return null;
     }
 
     public void infiniteGame() {
-        if (contor > 5) {
-            queue.poll().setText("");
-        }
+        if (contor > 5) queue.poll().setText("");
     }
 
     public void infiniteGameBot() {
         autoPlay();
         if (!checkWinner()) {
-
             while (queue.size() > 6) {
                 JButton old = queue.poll();
                 if (old != null) old.setText("");

@@ -33,6 +33,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Tic Tac Toe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setBounds(100, 100, 540, 540);
         setLocationRelativeTo(null);
 

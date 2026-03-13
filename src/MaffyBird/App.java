@@ -1,4 +1,4 @@
-package FlappyBird;
+package MaffyBird;
 import javax.swing.*;
 
 public class App {

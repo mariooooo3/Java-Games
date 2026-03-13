@@ -1,4 +1,4 @@
-package FlappyBird;
+package MaffyBird;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +7,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.util.Random;
 
 public class FlappyBird extends JPanel implements KeyListener {
     int boardWidth = 360;
@@ -17,6 +16,9 @@ public class FlappyBird extends JPanel implements KeyListener {
     Image birdImg;
     Image topPipeImg;
     Image bottomPipeImg;
+    Image gameOverImg;
+    Image up, mid, down;
+    Image messageImg;
 
     int birdX = boardWidth / 8;
     int birdY = boardHeight / 2;
@@ -64,6 +66,7 @@ public class FlappyBird extends JPanel implements KeyListener {
     Boolean gameOver = false;
     Boolean gameStarted = false;
     double score = 0;
+    int animFrame = 0;
 
     Clip pointSound;
     Clip hitSound;
@@ -86,12 +89,16 @@ public class FlappyBird extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        backgroundImg = new ImageIcon(getClass().getResource("./flappybirdbg.png")).getImage();
-        birdImg = new ImageIcon(getClass().getResource("./flappybird.png")).getImage();
-        topPipeImg = new ImageIcon(getClass().getResource("./toppipe.png")).getImage();
-        bottomPipeImg = new ImageIcon(getClass().getResource("./bottompipe.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("./BasicTheme/flappybirdbg.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/toppipe.png")).getImage();
+        bottomPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/bottompipe.png")).getImage();
+        gameOverImg = new ImageIcon(getClass().getResource("./BasicTheme/gameover.png")).getImage();
+        up = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-upflap.png")).getImage();
+        mid = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-midflap.png")).getImage();
+        down = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-downflap.png")).getImage();
+        messageImg = new ImageIcon(getClass().getResource("./BasicTheme/message2.png")).getImage();
 
-        bird = new Bird(birdImg);
+        bird = new Bird(mid);
         pipes = new ArrayList<Pipe>();
 
         placePipesTimer = new Timer(1500, new ActionListener() {
@@ -101,9 +108,9 @@ public class FlappyBird extends JPanel implements KeyListener {
             }
         });
 
-        pointSound = loadSound("/FlappyBird/Sounds/point.wav");
-        hitSound = loadSound("/FlappyBird/Sounds/hit.wav");
-        dieSound = loadSound("/FlappyBird/Sounds/die.wav");
+        pointSound = loadSound("/MaffyBird/Sounds/point.wav");
+        hitSound = loadSound("/MaffyBird/Sounds/hit.wav");
+        dieSound = loadSound("/MaffyBird/Sounds/die.wav");
 
         Thread gameThread = new Thread(() -> {
             while (true) {
@@ -157,16 +164,19 @@ public class FlappyBird extends JPanel implements KeyListener {
         if (!gameStarted) {
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Press SPACE to start", 80, boardHeight / 2 + 50);
+            g.drawImage(messageImg, 75, 100, null);
         }
         if (gameOver) {
             g.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString("Press R to restart", 100, boardHeight / 2 + 50);
+            g.drawImage(gameOverImg, 80, boardHeight / 2 -20, null);
         }
     }
 
     public void move() {
         if (gameOver || !gameStarted) return;
+
         velocityY += gravity;
         bird.y = bird.y + velocityY;
         bird.y = Math.max(bird.y, 0);
@@ -200,6 +210,18 @@ public class FlappyBird extends JPanel implements KeyListener {
             gameOver = true;
             dieSound.setFramePosition(0);
             dieSound.start();
+        }
+        animFrame = (animFrame + 1) % 3;
+        switch (animFrame) {
+            case 0:
+                bird.img = mid;
+                break;
+            case 1:
+                bird.img = up;
+                break;
+            case 2:
+                bird.img = down;
+                break;
         }
     }
 

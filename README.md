@@ -21,10 +21,14 @@ The portfolio will grow over time as I continue to build new games and experimen
 ### 🟢 Tic Tac Toe
 A Java Swing implementation of the classic game featuring multiple modes and smart AI.
 
-📁 Resources: [Resources/Tic_Tac_Toe](./Resources/Tic_Tac_Toe)  
-📄 Source: [src/Tic_Tac_Toe](./src/Tic_Tac_Toe)
+📁 Repository: [Tic Tac Toe](.)
 
+---
 
+### 🐦 MaffyBird (Flappy Bird Clone)
+A Java Swing clone of the famous **Flappy Bird** game featuring real-time gameplay, collision detection, and dynamic pipe generation.
+
+📁 Repository: [MaffyBird](.)
 
 ---
 
@@ -45,5 +49,3 @@ A Java Swing implementation of the classic game featuring multiple modes and sma
 * Java Swing
 * Event-Driven Programming
 * Game Logic & AI Fundamentals
-
----

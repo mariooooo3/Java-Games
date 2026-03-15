@@ -93,9 +93,9 @@ public class FlappyBird extends JPanel implements KeyListener {
         topPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/toppipe.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/bottompipe.png")).getImage();
         gameOverImg = new ImageIcon(getClass().getResource("./BasicTheme/gameover.png")).getImage();
-        up = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-upflap.png")).getImage();
-        mid = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-midflap.png")).getImage();
-        down = new ImageIcon(getClass().getResource("./BasicTheme/yellowbird-downflap.png")).getImage();
+        up = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-upflap.png")).getImage();
+        mid = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-midflap.png")).getImage();
+        down = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-downflap.png")).getImage();
         messageImg = new ImageIcon(getClass().getResource("./BasicTheme/message2.png")).getImage();
 
         bird = new Bird(mid);
@@ -163,13 +163,14 @@ public class FlappyBird extends JPanel implements KeyListener {
 
         if (!gameStarted) {
             g.setFont(new Font("Arial", Font.BOLD, 20));
-            g.drawString("Press SPACE to start", 80, boardHeight / 2 + 50);
+            g.drawString("Press SPACE to start", 80, boardHeight / 2 + 93);
             g.drawImage(messageImg, 75, 100, null);
         }
         if (gameOver) {
             g.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
+            g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString("Press R to restart", 100, boardHeight / 2 + 50);
+            g.drawString("Press R to restart", 100, boardHeight / 2 + 93);
             g.drawImage(gameOverImg, 80, boardHeight / 2 -20, null);
         }
     }

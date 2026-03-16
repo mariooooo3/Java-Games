@@ -7,14 +7,14 @@ public class App {
         int boardwidth = 360;
         int boardheight = 640;
 
-        JFrame frame = new JFrame("Flappy Bird");
+        JFrame frame = new JFrame("Maffy Bird");
         frame.setVisible(true);
         frame.setSize(boardwidth, boardheight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        FlappyBird flappyBird = new FlappyBird();
+        MaffyBird flappyBird = new MaffyBird();
         frame.add(flappyBird);
         frame.pack();
         flappyBird.requestFocus();

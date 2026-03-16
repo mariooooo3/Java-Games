@@ -8,17 +8,18 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
-public class FlappyBird extends JPanel implements KeyListener {
+public class MaffyBird extends JPanel implements KeyListener {
     int boardWidth = 360;
     int boardHeight = 640;
 
     Image backgroundImg;
-    Image birdImg;
     Image topPipeImg;
     Image bottomPipeImg;
     Image gameOverImg;
     Image up, mid, down;
     Image messageImg;
+    Image meteorImg;
+    Image meteorsTimeImg;
 
     int birdX = boardWidth / 8;
     int birdY = boardHeight / 2;
@@ -55,18 +56,42 @@ public class FlappyBird extends JPanel implements KeyListener {
         }
     }
 
+    int meteorX = boardWidth;
+    int meteorY = 0;
+    int meteorWidth = 46;
+    int meteorHeight = 46;
+
+    public class Meteor {
+        int x = meteorX;
+        int y = meteorY;
+        int width = meteorWidth;
+        int height = meteorHeight;
+        Image img;
+        int vy;
+
+        public Meteor(Image img, int vy) {
+            this.img = img;
+            this.vy = vy;
+        }
+    }
+
     Bird bird;
     int velocityY = 0;
     int velocityX = -4;
     int gravity = 1;
+    int velocityMX = -4;
 
     ArrayList<Pipe> pipes;
+    ArrayList<Meteor> meteors;
 
     Timer placePipesTimer;
+    Timer placeMeteorsTimer;
     Boolean gameOver = false;
     Boolean gameStarted = false;
     double score = 0;
     int animFrame = 0;
+    int flashTimer = 0;
+    boolean showFlash = false;
 
     Clip pointSound;
     Clip hitSound;
@@ -84,27 +109,36 @@ public class FlappyBird extends JPanel implements KeyListener {
         return null;
     }
 
-    FlappyBird() {
+    MaffyBird() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setFocusable(true);
         addKeyListener(this);
 
-        backgroundImg = new ImageIcon(getClass().getResource("./BasicTheme/flappybirdbg.png")).getImage();
-        topPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/toppipe.png")).getImage();
-        bottomPipeImg = new ImageIcon(getClass().getResource("./BasicTheme/bottompipe.png")).getImage();
-        gameOverImg = new ImageIcon(getClass().getResource("./BasicTheme/gameover.png")).getImage();
-        up = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-upflap.png")).getImage();
-        mid = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-midflap.png")).getImage();
-        down = new ImageIcon(getClass().getResource("./BasicTheme/bluebird-downflap.png")).getImage();
-        messageImg = new ImageIcon(getClass().getResource("./BasicTheme/message2.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/flappybirdbg.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/toppipe.png")).getImage();
+        bottomPipeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bottompipe.png")).getImage();
+        gameOverImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/gameover.png")).getImage();
+        up = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-upflap.png")).getImage();
+        mid = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-midflap.png")).getImage();
+        down = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-downflap.png")).getImage();
+        messageImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/message2.png")).getImage();
+        meteorImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteor.png")).getImage();
+        meteorsTimeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteorsTime.png")).getImage();
 
         bird = new Bird(mid);
         pipes = new ArrayList<Pipe>();
+        meteors = new ArrayList<Meteor>();
 
         placePipesTimer = new Timer(1500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 placePipes();
+            }
+        });
+
+        placeMeteorsTimer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                placeMeteors();
             }
         });
 
@@ -143,6 +177,14 @@ public class FlappyBird extends JPanel implements KeyListener {
         pipes.add(bottomPipe);
     }
 
+    public void placeMeteors() {
+        int randomY = (int) (Math.random() * boardHeight * 0.6);
+        int randomVY = (int) (1 + Math.random() * 3);
+        Meteor meteor = new Meteor(meteorImg, randomVY);
+        meteor.y = randomY;
+        meteors.add(meteor);
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
@@ -154,6 +196,10 @@ public class FlappyBird extends JPanel implements KeyListener {
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
             g.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
+        }
+        for (int i = 0; i < meteors.size(); i++) {
+            Meteor meteor = meteors.get(i);
+            g.drawImage(meteor.img, meteor.x, meteor.y, meteor.width, meteor.height, null);
         }
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -171,8 +217,11 @@ public class FlappyBird extends JPanel implements KeyListener {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString("Press R to restart", 100, boardHeight / 2 + 93);
-            g.drawImage(gameOverImg, 80, boardHeight / 2 -20, null);
+            g.drawImage(gameOverImg, 80, boardHeight / 2 - 20, null);
         }
+        if (showFlash){
+            g.drawImage(meteorsTimeImg, -20, 100, null);
+            }
     }
 
     public void move() {
@@ -206,6 +255,36 @@ public class FlappyBird extends JPanel implements KeyListener {
                 i--;
             }
         }
+        if (score >= 5 && !placeMeteorsTimer.isRunning()) {
+            placeMeteorsTimer.start();
+            flashTimer = 180;
+        }
+
+        if (flashTimer > 0) {
+            flashTimer--;
+            showFlash = (flashTimer / 30) % 2 == 0;
+        } else {
+            showFlash = false;
+        }
+
+        for (int i = 0; i < meteors.size(); i++) {
+            Meteor m = meteors.get(i);
+            m.x += velocityMX;
+            m.y += m.vy;
+
+            if (m.x + m.width < 0 || m.y > boardHeight) {
+                meteors.remove(i);
+                i--;
+                continue;
+            }
+            if (collision(bird, m) && !gameOver) {
+                gameOver = true;
+                hitSound.setFramePosition(0);
+                hitSound.start();
+                dieSound.setFramePosition(0);
+                dieSound.start();
+            }
+        }
 
         if (bird.y > boardHeight) {
             gameOver = true;
@@ -233,6 +312,13 @@ public class FlappyBird extends JPanel implements KeyListener {
                 a.y + a.height > b.y;
     }
 
+    public boolean collision(Bird a, Meteor b) {
+        return a.x < b.x + b.width &&
+                a.x + a.width > b.x &&
+                a.y < b.y + b.height &&
+                a.y + a.height > b.y;
+    }
+
     boolean spacePressed = false;
 
     @Override
@@ -251,10 +337,14 @@ public class FlappyBird extends JPanel implements KeyListener {
                 bird.y = birdY;
                 velocityY = 0;
                 pipes.clear();
+                meteors.clear();
                 score = 0;
+                flashTimer = 0;
+                showFlash = false;
                 gameOver = false;
                 gameStarted = false;
                 placePipesTimer.stop();
+                placeMeteorsTimer.stop();
             }
         }
     }

@@ -1,23 +1,31 @@
 package MaffyBird;
 import javax.swing.*;
+import java.awt.*;
 
-public class App {
-    public static void main(String[] args)
+public class App extends JFrame {
+    private JPanel contentPane;
+    private CardLayout cardLayout;
+
+
+    App()
     {
         int boardwidth = 360;
         int boardheight = 640;
 
-        JFrame frame = new JFrame("Maffy Bird");
-        frame.setVisible(true);
-        frame.setSize(boardwidth, boardheight);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        setSize(boardwidth, boardheight);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MaffyBird flappyBird = new MaffyBird();
-        frame.add(flappyBird);
-        frame.pack();
+        add(flappyBird);
+        pack();
         flappyBird.requestFocus();
-        frame.setVisible(true);
+        setVisible(true);
+
+        cardLayout = new CardLayout();
+        contentPane = new JPanel(cardLayout);
+        setContentPane(contentPane);
     }
 }

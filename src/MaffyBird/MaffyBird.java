@@ -121,7 +121,7 @@ public class MaffyBird extends JPanel implements KeyListener {
         up = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-upflap.png")).getImage();
         mid = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-midflap.png")).getImage();
         down = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/bluebird-downflap.png")).getImage();
-        messageImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/message2.png")).getImage();
+        messageImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/message.png")).getImage();
         meteorImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteor.png")).getImage();
         meteorsTimeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteorsTime.png")).getImage();
 

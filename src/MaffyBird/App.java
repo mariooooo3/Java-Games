@@ -11,15 +11,9 @@ public class App extends JFrame {
 
 
     App() {
-        int boardwidth = 360;
-        int boardheight = 640;
-
-        setVisible(true);
-        setSize(boardwidth, boardheight);
-        setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setTitle("MaffyBird");
         Menu menu = new Menu();
         MaffyBird maffyBird = new MaffyBird();
 
@@ -32,6 +26,8 @@ public class App extends JFrame {
 
         cardLayout.show(contentPane, "Menu");
         setVisible(true);
+        pack();
+        setLocationRelativeTo(null);
 
         maffyBird.back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

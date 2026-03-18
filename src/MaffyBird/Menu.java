@@ -35,7 +35,7 @@ public class Menu extends JPanel {
         g.drawImage(highScoreImg, 70, 180, 64, 64, null);
         g.setFont(new Font("Arial", Font.BOLD, 25));
         g.setColor(Color.WHITE);
-        g.drawString(":" + (int) highScore + " points", 120, 244);
+        g.drawString(":" + (int) highScore + " points", 120, 240);
     }
 
     public void updateHighScore() {

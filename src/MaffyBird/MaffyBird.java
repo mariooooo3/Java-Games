@@ -220,7 +220,7 @@ public class MaffyBird extends JPanel implements KeyListener {
 
         if (!gameOver && gameStarted) {
             g.drawString("Score: " + String.valueOf((int) score), 10, 35);
-            g.drawString("Best: " + (int) highScore, 200, 35);
+            g.drawString("Best: " + (int) highScore, 220, 35);
         }
 
         if (!gameStarted) {
@@ -238,7 +238,7 @@ public class MaffyBird extends JPanel implements KeyListener {
             g.drawImage(backImg, 20, 50, 32, 32, null);
         }
         if (showFlash) {
-            g.drawImage(meteorsTimeImg, -20, 100, null);
+            g.drawImage(meteorsTimeImg, -25, 100, null);
         }
     }
 

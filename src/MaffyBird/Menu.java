@@ -38,8 +38,8 @@ public class Menu extends JPanel {
         g.drawString(":" + (int) highScore + " points", 120, 240);
     }
 
-    public void updateHighScore() {
-        this.highScore = MaffyBird.loadHighScore();
+    public void updateHighScore(double score) {
+        this.highScore = score;
         repaint();
     }
 }

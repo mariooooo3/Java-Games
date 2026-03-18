@@ -32,7 +32,7 @@ public class App extends JFrame {
         maffyBird.back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(contentPane, "Menu");
-                menu.updateHighScore();
+                menu.updateHighScore(maffyBird.highScore);
             }
         });
 

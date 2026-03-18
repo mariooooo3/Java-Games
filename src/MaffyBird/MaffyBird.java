@@ -385,18 +385,16 @@ public class MaffyBird extends JPanel implements KeyListener {
 
     public void saveHighScore(double score) {
         try {
-            Files.writeString(Path.of("highscore.txt"), String.valueOf((int) score));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            String path = System.getProperty("user.home") + "/MaffyBird_highscore.txt";
+            Files.writeString(Path.of(path), String.valueOf((int) score));
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     public static double loadHighScore() {
         try {
-            return Double.parseDouble(Files.readString(Path.of("highscore.txt")));
-        } catch (Exception e) {
-            return 0;
-        }
+            String path = System.getProperty("user.home") + "/MaffyBird_highscore.txt";
+            return Double.parseDouble(Files.readString(Path.of(path)));
+        } catch (Exception e) { return 0; }
     }
 
     @Override

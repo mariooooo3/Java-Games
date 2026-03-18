@@ -2,6 +2,8 @@ package MaffyBird;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,6 +22,7 @@ public class MaffyBird extends JPanel implements KeyListener {
     Image messageImg;
     Image meteorImg;
     Image meteorsTimeImg;
+    Image backImg;
 
     int birdX = boardWidth / 8;
     int birdY = boardHeight / 2;
@@ -89,9 +92,11 @@ public class MaffyBird extends JPanel implements KeyListener {
     Boolean gameOver = false;
     Boolean gameStarted = false;
     double score = 0;
+    double highScore = loadHighScore();
     int animFrame = 0;
     int flashTimer = 0;
     boolean showFlash = false;
+    JButton back;
 
     Clip pointSound;
     Clip hitSound;
@@ -113,6 +118,7 @@ public class MaffyBird extends JPanel implements KeyListener {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setFocusable(true);
         addKeyListener(this);
+        setLayout(null);
 
         backgroundImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/flappybirdbg.png")).getImage();
         topPipeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/toppipe.png")).getImage();
@@ -124,10 +130,18 @@ public class MaffyBird extends JPanel implements KeyListener {
         messageImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/message.png")).getImage();
         meteorImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteor.png")).getImage();
         meteorsTimeImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/meteorsTime.png")).getImage();
+        backImg = new ImageIcon(getClass().getResource("/MaffyBird/BasicTheme/menu.png")).getImage();
 
         bird = new Bird(mid);
         pipes = new ArrayList<Pipe>();
         meteors = new ArrayList<Meteor>();
+        back = new JButton();
+        back.setBounds(20, 50, 32, 32);
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);
+        back.setFocusPainted(false);
+        add(back);
 
         placePipesTimer = new Timer(1500, new ActionListener() {
             @Override
@@ -204,13 +218,16 @@ public class MaffyBird extends JPanel implements KeyListener {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 32));
 
-        if (!gameOver && gameStarted)
+        if (!gameOver && gameStarted) {
             g.drawString("Score: " + String.valueOf((int) score), 10, 35);
+            g.drawString("Best: " + (int) highScore, 200, 35);
+        }
 
         if (!gameStarted) {
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Press SPACE to start", 80, boardHeight / 2 + 93);
             g.drawImage(messageImg, 75, 100, null);
+            g.drawImage(backImg, 20, 50, 32, 32, null);
         }
         if (gameOver) {
             g.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
@@ -218,10 +235,11 @@ public class MaffyBird extends JPanel implements KeyListener {
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString("Press R to restart", 100, boardHeight / 2 + 93);
             g.drawImage(gameOverImg, 80, boardHeight / 2 - 20, null);
+            g.drawImage(backImg, 20, 50, 32, 32, null);
         }
-        if (showFlash){
+        if (showFlash) {
             g.drawImage(meteorsTimeImg, -20, 100, null);
-            }
+        }
     }
 
     public void move() {
@@ -248,6 +266,10 @@ public class MaffyBird extends JPanel implements KeyListener {
                 hitSound.start();
                 dieSound.setFramePosition(0);
                 dieSound.start();
+                if (score > highScore) {
+                    highScore = score;
+                    saveHighScore(highScore);
+                }
             }
 
             if (pipe.x + pipe.width < 0) {
@@ -283,6 +305,10 @@ public class MaffyBird extends JPanel implements KeyListener {
                 hitSound.start();
                 dieSound.setFramePosition(0);
                 dieSound.start();
+                if (score > highScore) {
+                    highScore = score;
+                    saveHighScore(highScore);
+                }
             }
         }
 
@@ -290,6 +316,10 @@ public class MaffyBird extends JPanel implements KeyListener {
             gameOver = true;
             dieSound.setFramePosition(0);
             dieSound.start();
+            if (score > highScore) {
+                highScore = score;
+                saveHighScore(highScore);
+            }
         }
         animFrame = (animFrame + 1) % 3;
         switch (animFrame) {
@@ -334,18 +364,38 @@ public class MaffyBird extends JPanel implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_R) {
             if (gameOver) {
-                bird.y = birdY;
-                velocityY = 0;
-                pipes.clear();
-                meteors.clear();
-                score = 0;
-                flashTimer = 0;
-                showFlash = false;
-                gameOver = false;
-                gameStarted = false;
-                placePipesTimer.stop();
-                placeMeteorsTimer.stop();
+                reset();
             }
+        }
+    }
+
+    public void reset() {
+        bird.y = birdY;
+        velocityY = 0;
+        pipes.clear();
+        meteors.clear();
+        score = 0;
+        flashTimer = 0;
+        showFlash = false;
+        gameOver = false;
+        gameStarted = false;
+        placePipesTimer.stop();
+        placeMeteorsTimer.stop();
+    }
+
+    public void saveHighScore(double score) {
+        try {
+            Files.writeString(Path.of("highscore.txt"), String.valueOf((int) score));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static double loadHighScore() {
+        try {
+            return Double.parseDouble(Files.readString(Path.of("highscore.txt")));
+        } catch (Exception e) {
+            return 0;
         }
     }
 

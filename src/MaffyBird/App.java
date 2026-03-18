@@ -1,5 +1,4 @@
 package MaffyBird;
-import Tic_Tac_Toe.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +10,7 @@ public class App extends JFrame {
     private CardLayout cardLayout;
 
 
-    App()
-    {
+    App() {
         int boardwidth = 360;
         int boardheight = 640;
 
@@ -24,9 +22,6 @@ public class App extends JFrame {
 
         Menu menu = new Menu();
         MaffyBird maffyBird = new MaffyBird();
-        add(maffyBird);
-        pack();
-        maffyBird.requestFocus();
 
         cardLayout = new CardLayout();
         contentPane = new JPanel(cardLayout);
@@ -38,16 +33,24 @@ public class App extends JFrame {
         cardLayout.show(contentPane, "Menu");
         setVisible(true);
 
+        maffyBird.back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(contentPane, "Menu");
+                menu.updateHighScore();
+            }
+        });
+
         menu.start.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(contentPane, "Game");
                 maffyBird.requestFocusInWindow();
+                maffyBird.reset();
             }
         });
+
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 App app = new App();

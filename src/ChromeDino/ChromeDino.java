@@ -15,6 +15,7 @@ public class ChromeDino extends JPanel implements KeyListener {
     ArrayList<Track> tracks = new ArrayList<Track>();
     ArrayList<Cloud> clouds = new ArrayList<Cloud>();
     ArrayList<Volcano> volcanoes = new ArrayList<Volcano>();
+    ArrayList<Block> cactusList = new ArrayList<Block>();
 
     Image messageImg;
     Image cloudImg;
@@ -24,10 +25,17 @@ public class ChromeDino extends JPanel implements KeyListener {
     Image dinoRunImg;
     Image volcanoImg;
     Image dinoDuckImg;
+    Image cactus1Img;
+    Image cactus2Img;
+    Image cactus3Img;
+    Image bigCactus1Img;
+    Image bigCactus2Img;
+    Image bigCactus3Img;
 
     Timer gameLoopTrack;
     Timer placeClouds;
     Timer placeVolcanoes;
+    Timer placeCactus;
 
     Boolean gameOver = false;
     Boolean gameStarted = false;
@@ -109,7 +117,7 @@ public class ChromeDino extends JPanel implements KeyListener {
         }
     }
 
-
+    int blockVelocityX = -12;
     public class Block {
         int x;
         int y;
@@ -140,6 +148,12 @@ public class ChromeDino extends JPanel implements KeyListener {
         messageImg = new ImageIcon(getClass().getResource("/ChromeDino/message.png")).getImage();
         cloudImg = new ImageIcon(getClass().getResource("/ChromeDino/cloud.png")).getImage();
         trackImg = new ImageIcon(getClass().getResource("/ChromeDino/track.png")).getImage();
+        cactus1Img = new ImageIcon(getClass().getResource("/ChromeDino/cactus1.png")).getImage();
+        cactus2Img = new ImageIcon(getClass().getResource("/ChromeDino/cactus2.png")).getImage();
+        cactus3Img = new ImageIcon(getClass().getResource("/ChromeDino/cactus3.png")).getImage();
+        bigCactus1Img = new ImageIcon(getClass().getResource("/ChromeDino/big-cactus1.png")).getImage();
+        bigCactus2Img = new ImageIcon(getClass().getResource("/ChromeDino/big-cactus2.png")).getImage();
+        bigCactus3Img = new ImageIcon(getClass().getResource("/ChromeDino/big-cactus3.png")).getImage();
         dinoImg = new ImageIcon(getClass().getResource("/ChromeDino/dino.png")).getImage();
         dinoJumpImg = new ImageIcon(getClass().getResource("/ChromeDino/dino-jump.png")).getImage();
         dinoRunImg = new ImageIcon(getClass().getResource("/ChromeDino/dino-run.gif")).getImage();
@@ -191,6 +205,13 @@ public class ChromeDino extends JPanel implements KeyListener {
             }
         });
 
+        placeCactus = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                placeCactus();
+            }
+        });
+
         addKeyListener(this);
     }
 
@@ -211,6 +232,11 @@ public class ChromeDino extends JPanel implements KeyListener {
 
         for (Cloud cloud : clouds) {
             g.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height, null);
+        }
+
+        for(Block block : cactusList)
+        {
+            g.drawImage(block.img, block.x, block.y, block.width, block.height, null);
         }
 
         g.drawImage(dino.img, dino.x, dino.y, dino.width, dino.height, null);
@@ -239,6 +265,15 @@ public class ChromeDino extends JPanel implements KeyListener {
         for(Volcano volcano : volcanoes) {
             volcano.x += volcanoVelocityX;
         }
+        for(Block block : cactusList) {
+            block.x += blockVelocityX;
+
+            if(collision(dino, block))
+            {
+                gameOver = true;
+            }
+        }
+
     }
 
     public void placeTrack() {
@@ -265,6 +300,45 @@ public class ChromeDino extends JPanel implements KeyListener {
             volcanoes.remove(0);
     }
 
+    public void placeCactus()
+    {
+        Random rand = new Random();
+        int choice = rand.nextInt(7);
+        switch (choice) {
+            case 0: Block cactus0 = new Block(2000, 170, 34, 70, cactus1Img);
+            cactusList.add(cactus0);
+            break;
+            case 1: Block cactus1 = new Block(2000, 170, 69, 70, cactus2Img);
+            cactusList.add(cactus1);
+            break;
+            case 2: Block cactus2 = new Block(2000, 170, 102, 70, cactus3Img);
+            cactusList.add(cactus2);
+            break;
+            case 3: Block cactus3 = new Block(2000, 150, 50, 90, bigCactus1Img);
+            cactusList.add(cactus3);
+            break;
+            case 4: Block cactus4 = new Block(2000, 150, 103, 90, bigCactus2Img);
+            cactusList.add(cactus4);
+            break;
+            case 5: Block cactus5 = new Block(2000, 150, 150, 90, bigCactus3Img);
+            cactusList.add(cactus5);
+            break;
+            case 6: break;
+        }
+    }
+
+    boolean collision(Dino a, Block b) {
+        int dinoPadX = 15;
+        int dinoPadY = 10;
+        int cactusPadX = 8;
+        int cactusPadY = 5;
+
+        return (a.x + dinoPadX) < (b.x + b.width - cactusPadX) &&
+                (a.x + a.width - dinoPadX) > (b.x + cactusPadX) &&
+                (a.y + dinoPadY) < (b.y + b.height - cactusPadY) &&
+                (a.y + a.height - dinoPadY) > (b.y + cactusPadY);
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -273,6 +347,7 @@ public class ChromeDino extends JPanel implements KeyListener {
                 gameLoopTrack.start();
                 placeClouds.start();
                 placeVolcanoes.start();
+                placeCactus.start();
                 dino.img = dinoRunImg;
                 return;
             }

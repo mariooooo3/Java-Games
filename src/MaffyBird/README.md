@@ -1,10 +1,10 @@
-# 🎮 MaffyBird – Java Desktop Game
+# MaffyBird – Java Desktop Game
 
 MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, created to demonstrate **OOP principles**, real-time game mechanics, and GUI development using **Java Swing**. The objective of the game is to control the bird and navigate it through pipes without colliding with them.
 
 ---
 
-## 🏗️ **Project Architecture**
+## Project Architecture
 
 | Module | Link | Functionality |
 |:------|:------|:---------------|
@@ -13,34 +13,34 @@ MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, create
 
 ---
 
-## 📝 **Key Features**
+## Key Features
 
-* 🐦 Classic Flappy Bird gameplay
-* ⬆️ Jump mechanics controlled by keyboard input
-* 🧱 Dynamic pipe generation
-* ⚡ Real-time collision detection
-* 🏆 Score tracking system
-* 🖥️ Simple and responsive GUI using Java Swing
+* Classic Flappy Bird gameplay
+* Jump mechanics controlled by keyboard input
+* Dynamic pipe generation
+* Real-time collision detection
+* Score tracking system
+* Simple and responsive GUI using Java Swing
 
 ---
 
-## 🎯 **Gameplay**
+## Gameplay
 
-### 🐦 Player Control
+### Player Control
 Press **SPACE** to make the bird jump and avoid obstacles.
 
-### 🧱 Pipes
+### Pipes
 Pipes continuously move from right to left, creating gaps the player must fly through.
 
-### 🏆 Scoring
+### Scoring
 Each pipe successfully passed increases the player's score.
 
-### 💀 Game Over
+### Game Over
 The game ends if the bird collides with a pipe or the ground.
 
 ---
 
-## 📚 **Technologies**
+## Technologies
 
 * Java OOP
 * Java Swing (GUI)

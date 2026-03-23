@@ -1,4 +1,4 @@
-# 🎮 Java Games Portfolio
+# Java Games Portfolio
 
 This repository represents my personal collection of **Java desktop games**, created to practice and demonstrate **object-oriented programming**, GUI development, and game logic design.
 
@@ -6,7 +6,7 @@ The portfolio will grow over time as I continue to build new games and experimen
 
 ---
 
-## 🏗️ **Repository Structure**
+## Repository Structure
 
 | Section | Description |
 |--------|------------|
@@ -16,23 +16,23 @@ The portfolio will grow over time as I continue to build new games and experimen
 
 ---
 
-## 🎮 **Current Games**
+## Current Games
 
-### 🟢 Tic Tac Toe
+### Tic Tac Toe
 A Java Swing implementation of the classic game featuring multiple modes and smart AI.
 
 📁 Repository: [Tic Tac Toe](./src/Tic_Tac_Toe)
 
 ---
 
-### 🐦 MaffyBird (Flappy Bird Clone)
+### MaffyBird (Flappy Bird Clone)
 A Java Swing clone of the famous **Flappy Bird** game featuring real-time gameplay, collision detection, and dynamic pipe generation.
 
 📁 Repository: [MaffyBird](./src/MaffyBird)
 
 ---
 
-## 🎯 **Goals of This Portfolio**
+## Goals of This Portfolio
 
 * Practice clean and modular Java architecture
 * Improve GUI design using Swing
@@ -42,7 +42,7 @@ A Java Swing clone of the famous **Flappy Bird** game featuring real-time gamepl
 
 ---
 
-## 📚 **Technologies Used**
+## Technologies Used
 
 * Java
 * OOP Principles

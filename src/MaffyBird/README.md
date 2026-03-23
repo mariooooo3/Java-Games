@@ -6,10 +6,10 @@ MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, create
 
 ## Project Architecture
 
-| Module | Link | Functionality |
-|:------|:------|:---------------|
-| **Main App** | [App.java](App.java) | Application entry point & window initialization |
-| **Game Engine** | [FlappyBird.java](FlappyBird.java) | Handles gameplay, rendering, pipe generation, gravity, collision detection, and scoring |
+| Module | Link                             | Functionality |
+|:------|:---------------------------------|:---------------|
+| **Main App** | [App.java](App.java)             | Application entry point & window initialization |
+| **Game Engine** | [MaffyBird.java](MaffyBird.java) | Handles gameplay, rendering, pipe generation, gravity, collision detection, and scoring |
 
 ---
 

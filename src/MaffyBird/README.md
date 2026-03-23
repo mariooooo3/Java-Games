@@ -1,50 +1,57 @@
 # MaffyBird – Java Desktop Game
 
-MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, created to demonstrate **OOP principles**, real-time game mechanics, and GUI development using **Java Swing**. The objective of the game is to control the bird and navigate it through pipes without colliding with them.
+MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, built with **Java Swing**. The objective is to control the bird and navigate it through pipes and meteors without colliding with them.
 
 ---
 
 ## Project Architecture
 
-| Module | Link                             | Functionality |
-|:------|:---------------------------------|:---------------|
-| **Main App** | [App.java](App.java)             | Application entry point & window initialization |
-| **Game Engine** | [MaffyBird.java](MaffyBird.java) | Handles gameplay, rendering, pipe generation, gravity, collision detection, and scoring |
+| Module | Link | Functionality |
+|:------|:------|:---------------|
+| **App** | [App.java](App.java) | Entry point, window setup, and screen navigation via `CardLayout` |
+| **Menu** | [Menu.java](Menu.java) | Main menu screen with high score display |
+| **Game Engine** | [MaffyBird.java](MaffyBird.java) | Core gameplay: rendering, physics, pipe & meteor generation, collision detection, scoring, and sound |
 
 ---
 
 ## Key Features
 
-* Classic Flappy Bird gameplay
-* Jump mechanics controlled by keyboard input
-* Dynamic pipe generation
-* Real-time collision detection
-* Score tracking system
-* Simple and responsive GUI using Java Swing
+* Smooth bird animation with three flight frames (up, mid, down)
+* Gravity and jump physics via velocity system
+* Dynamic pipe generation with randomized heights
+* Meteor obstacle system that activates after reaching a score of 5
+* Real-time collision detection for both pipes and meteors
+* Sound effects for jumping, scoring, and game over
+* Persistent high score saved locally to the user's home directory
+* Menu screen with high score display
 
 ---
 
 ## Gameplay
 
-### Player Control
-Press **SPACE** to make the bird jump and avoid obstacles.
+### Controls
+Press **SPACE** to make the bird jump. Press **R** to restart after a game over.
 
 ### Pipes
-Pipes continuously move from right to left, creating gaps the player must fly through.
+Pipes spawn every 1.5 seconds and move from right to left with randomized gap positions.
+
+### Meteors
+Once the player reaches a score of 5, meteors begin spawning every 3 seconds. They move diagonally, adding an extra layer of difficulty.
 
 ### Scoring
-Each pipe successfully passed increases the player's score.
+Each pipe successfully passed increases the score by 1. The high score is saved between sessions.
 
 ### Game Over
-The game ends if the bird collides with a pipe or the ground.
+The game ends if the bird collides with a pipe, a meteor, or the ground.
 
 ---
 
 ## Technologies
 
 * Java OOP
-* Java Swing (GUI)
+* Java Swing (GUI & CardLayout navigation)
 * Event-Driven Programming
-* Basic Game Physics
-* Collision Detection
-* Real-time Game Loop
+* Game Physics (gravity & velocity)
+* Collision Detection (AABB)
+* Multithreaded Game Loop
+* Java Sound API

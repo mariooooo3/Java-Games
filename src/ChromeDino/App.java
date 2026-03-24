@@ -3,8 +3,7 @@ package ChromeDino;
 import javax.swing.*;
 
 public class App extends JFrame {
-    App()
-    {
+    App() {
         int boardWidth = 750;
         int boardHeight = 250;
 
@@ -23,8 +22,7 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 App app = new App();

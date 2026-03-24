@@ -32,6 +32,13 @@ A Java Swing clone of the famous **Flappy Bird** game featuring real-time gamepl
 
 ---
 
+### Chrome Dino
+A Java Swing recreation of the classic Chrome Dino offline game featuring endless runner mechanics, obstacle generation, increasing difficulty over time, and smooth jump controls.
+
+📁 Repository: [Chrome Dino](./src/ChromeDino)
+
+---
+
 ## Goals of This Portfolio
 
 * Practice clean and modular Java architecture

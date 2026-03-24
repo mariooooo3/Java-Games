@@ -40,6 +40,8 @@ public class ChromeDino extends JPanel implements KeyListener {
     int trackX = 0;
     int trackY = boardHeight - trackHeight;
     int trackVelocityX = -9;
+    int score = 0;
+    int bestScore = 0;
 
     public class Track {
         int x = trackX;
@@ -265,6 +267,18 @@ public class ChromeDino extends JPanel implements KeyListener {
             g.drawImage(restartImg, boardWidth / 2 - 40, boardHeight / 2, 76, 68, null);
             restart.setVisible(true);
         }
+        g.setColor(Color.black);
+        g.setFont(new Font("Courier", Font.PLAIN, 24));
+        if (gameOver) {
+            g.drawString("Game Over: " + String.valueOf(score), 10, 35);
+        }
+        else {
+            g.drawString(String.valueOf(score), 10, 35);
+            g.drawString("High Score:" + String.valueOf(bestScore), 550, 35);
+        }
+
+        if(score > bestScore)
+            bestScore = score;
     }
 
     public void move() {
@@ -319,6 +333,7 @@ public class ChromeDino extends JPanel implements KeyListener {
                 placeCactus.stop();
             }
         }
+        score++;
 
     }
 
@@ -423,6 +438,7 @@ public class ChromeDino extends JPanel implements KeyListener {
         gameStarted = true;
         gasStation = true;
         gasStationX = 100;
+        score = 0;
     }
 
     @Override

@@ -16,26 +16,13 @@ public class ChromeDino extends JPanel implements KeyListener {
     ArrayList<Cloud> clouds = new ArrayList<Cloud>();
     ArrayList<Volcano> volcanoes = new ArrayList<Volcano>();
     ArrayList<Block> cactusList = new ArrayList<Block>();
+    JButton restart;
 
-    Image messageImg;
-    Image cloudImg;
-    Image birdImg;
-    Image birdDeadImg;
-    Image trackImg;
-    Image dinoImg;
-    Image dinoJumpImg;
-    Image dinoRunImg;
-    Image volcanoImg;
-    Image dinoDuckImg;
-    Image dinoDeadImg;
-    Image cactus1Img;
-    Image cactus2Img;
-    Image cactus3Img;
-    Image bigCactus1Img;
-    Image bigCactus2Img;
-    Image bigCactus3Img;
-    Image gameOverImg;
-    Image restartImg;
+    Image messageImg;Image cloudImg;Image birdImg;Image birdDeadImg;
+    Image trackImg;Image dinoImg;Image dinoJumpImg;Image dinoRunImg;
+    Image volcanoImg;Image dinoDuckImg;Image dinoDeadImg;Image cactus1Img;
+    Image cactus2Img;Image cactus3Img;Image bigCactus1Img;Image bigCactus2Img;
+    Image bigCactus3Img;Image gameOverImg;Image restartImg;Image gasStationImg;
 
     Timer gameLoopTrack;
     Timer placeClouds;
@@ -46,12 +33,13 @@ public class ChromeDino extends JPanel implements KeyListener {
     Boolean gameStarted = false;
     Boolean duckIsPressed = false;
     Boolean message = true;
+    Boolean gasStation = false;
 
     int trackWidth = 2404;
     int trackHeight = 28;
     int trackX = 0;
     int trackY = boardHeight - trackHeight;
-    int trackVelocityX = -12;
+    int trackVelocityX = -9;
 
     public class Track {
         int x = trackX;
@@ -122,7 +110,8 @@ public class ChromeDino extends JPanel implements KeyListener {
         }
     }
 
-    int blockVelocityX = -12;
+    int blockVelocityX = -9;
+    int gasStationX = 100;
 
     public class Block {
         int x;
@@ -169,6 +158,7 @@ public class ChromeDino extends JPanel implements KeyListener {
         dinoDuckImg = new ImageIcon(getClass().getResource("/ChromeDino/dino-duck.gif")).getImage();
         gameOverImg = new ImageIcon(getClass().getResource("/ChromeDino/game-over.png")).getImage();
         restartImg = new ImageIcon(getClass().getResource("/ChromeDino/reset.png")).getImage();
+        gasStationImg = new ImageIcon(getClass().getResource("/ChromeDino/gasStation.png")).getImage();
 
         dino = new Dino(dinoImg);
         track = new Track(trackImg);
@@ -177,6 +167,20 @@ public class ChromeDino extends JPanel implements KeyListener {
         clouds.add(cloud);
         volcano = new Volcano(volcanoImg);
         volcanoes.add(volcano);
+
+        restart = new JButton();
+        restart.setBounds(boardWidth/2-30,boardHeight/2+10,60,50);
+        restart.setVisible(false);
+        add(restart);
+        restart.setOpaque(false);
+        restart.setContentAreaFilled(false);
+        restart.setBorderPainted(false);
+        restart.setFocusPainted(false);
+        restart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                reset();
+            }
+        });
 
         Thread gameThread = new Thread(() -> {
             while (true) {
@@ -194,7 +198,7 @@ public class ChromeDino extends JPanel implements KeyListener {
         gameThread.setDaemon(true);
         gameThread.start();
 
-        gameLoopTrack = new Timer(2000, new ActionListener() {
+        gameLoopTrack = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 placeTrack();
@@ -213,6 +217,8 @@ public class ChromeDino extends JPanel implements KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 placeVolcanoes();
+                trackVelocityX--;
+                blockVelocityX--;
             }
         });
 
@@ -235,6 +241,9 @@ public class ChromeDino extends JPanel implements KeyListener {
         for (Volcano volcano : volcanoes) {
             g.drawImage(volcano.img, volcano.x, volcano.y, volcano.width, volcano.height, null);
         }
+        if(gasStation) {
+            g.drawImage(gasStationImg, gasStationX, 10, 600, 267, null);
+        }
         if (message)
             g.drawImage(messageImg, 120, -40, 500, 333, null);
 
@@ -254,6 +263,7 @@ public class ChromeDino extends JPanel implements KeyListener {
         if (gameOver) {
             g.drawImage(gameOverImg, boardWidth / 4, boardHeight / 4, 386, 40, null);
             g.drawImage(restartImg, boardWidth / 2 - 40, boardHeight / 2, 76, 68, null);
+            restart.setVisible(true);
         }
     }
 
@@ -263,6 +273,7 @@ public class ChromeDino extends JPanel implements KeyListener {
 
         int groundY = duckIsPressed ? dinoY + (dinoHeight - 60) : dinoY;
 
+        gasStationX += -2;
         dinoVelocityY += dinoGravity;
         dino.y += dinoVelocityY;
 
@@ -392,6 +403,28 @@ public class ChromeDino extends JPanel implements KeyListener {
                 (a.y + a.height - dinoPadY) > (b.y + cactusPadY);
     }
 
+    public void reset()
+    {
+        trackVelocityX = -9;
+        blockVelocityX = -9;
+        dino.img = dinoRunImg;
+        dino.y = dinoY;
+        gameLoopTrack.start();
+        placeCactus.start();
+        cactusList.clear();
+        placeVolcanoes.start();
+        volcanoes.clear();
+        volcano = new Volcano(volcanoImg);
+        volcanoes.add(volcano);
+        placeClouds.start();
+        clouds.clear();
+        restart.setVisible(false);
+        gameOver = false;
+        gameStarted = true;
+        gasStation = true;
+        gasStationX = 100;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if (gameOver)
@@ -408,7 +441,7 @@ public class ChromeDino extends JPanel implements KeyListener {
                 return;
             }
             if (dino.y == dinoY) {
-                dinoVelocityY = -17;
+                dinoVelocityY = -18;
                 dino.img = dinoJumpImg;
             }
         }

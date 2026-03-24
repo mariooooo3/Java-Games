@@ -28,9 +28,9 @@ Dino Adventure is a Java desktop game inspired by the iconic **Chrome Dinosaur**
 ## Preview
 ```
 ┌─────────────────────────────────────────┐
-│  0                        High Score: 0 │
+│  300                    High Score: 450 │
 │                                         │
-│   🦕  ──────🌵──────🐦──────────🌵───  │
+│   🦕  ──────🌵──────🐦──────────🌵─── │
 └─────────────────────────────────────────┘
 ```
 

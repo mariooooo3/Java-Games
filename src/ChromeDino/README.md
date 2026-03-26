@@ -9,7 +9,7 @@ Dino Adventure is a Java desktop game inspired by the iconic **Chrome Dinosaur**
 | Module | Link | Functionality |
 |:------|:------|:---------------|
 | **App** | [App.java](App.java) | Entry point and window setup |
-| **Game Engine** | [ChromeDino.java](ChromeDino.java) | Core gameplay: rendering, physics, obstacle generation, collision detection, scoring |
+| **Game Engine** | [ChromeDino.java](ChromeDino.java) | Core gameplay: rendering, physics, obstacle generation, collision detection, scoring, audio |
 
 ---
 
@@ -21,7 +21,10 @@ Dino Adventure is a Java desktop game inspired by the iconic **Chrome Dinosaur**
 * Animated backgrounds — erupting volcano and gas station scenery
 * Real-time collision detection with hitbox padding for fairness
 * Live score display and persistent high score per session
+* Score flash effect — every 1000 points the score flashes red with a sound cue
+* Sound effects — jump, point milestone, and death sounds
 * Game Over screen with clickable restart button
+* Automatic cleanup of off-screen obstacles to maintain performance
 
 ---
 
@@ -48,10 +51,10 @@ Cacti and birds spawn every 1.5 seconds and move from right to left. Birds appea
 Every 10 seconds the track and obstacle velocity increases, making survival progressively harder.
 
 ### Scoring
-Score increases every frame while the dinosaur is alive. The high score is kept for the duration of the session.
+Score increases every frame while the dinosaur is alive. Every 1000 points a sound plays and the score flashes red. The high score is kept for the duration of the session.
 
 ### Game Over
-The game ends if the dinosaur collides with any obstacle. All animations stop and the final score is displayed.
+The game ends if the dinosaur collides with any obstacle. All animations stop, sounds halt, and the final score is displayed.
 
 ---
 
@@ -59,6 +62,7 @@ The game ends if the dinosaur collides with any obstacle. All animations stop an
 
 * Java OOP
 * Java Swing (JPanel, JFrame)
+* Java Sound API (Clip, AudioInputStream)
 * Event-Driven Programming (KeyListener, ActionListener)
 * Collision Detection (AABB with padding)
 * Multithreaded Game Loop

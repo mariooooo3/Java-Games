@@ -60,8 +60,17 @@ public class ChromeDino extends JPanel implements KeyListener {
     int trackVelocityX = -9;
     int score = 0;
     int bestScore = 0;
+    int prevBestScore = 0;
     int flashTimer = 0;
     int scorePoint = 0;
+
+    boolean nightMode = false;
+    float nightAlpha = 0f;
+    int nightToggleScore = 0;
+
+    boolean dying = false;
+    int dyingTimer = 0;
+    static final int DYING_DURATION = 48;
 
     public class Track {
         int x = trackX;
@@ -93,14 +102,12 @@ public class ChromeDino extends JPanel implements KeyListener {
         }
     }
 
-
     int dinoWidth = 88;
     int dinoHeight = 94;
     int dinoX = 50;
     int dinoY = boardHeight - dinoHeight;
     int dinoVelocityY = 0;
     int dinoGravity = 1;
-
 
     public class Dino {
         int x = dinoX;
@@ -202,7 +209,6 @@ public class ChromeDino extends JPanel implements KeyListener {
         jumpSound = loadSound("/ChromeDino/Sounds/jump.wav");
         dieSound = loadSound("/ChromeDino/Sounds/die.wav");
 
-
         dino = new Dino(dinoImg);
         track = new Track(trackImg);
         tracks.add(track);
@@ -212,7 +218,6 @@ public class ChromeDino extends JPanel implements KeyListener {
         volcanoes.add(volcano);
 
         restart = new JButton();
-        restart.setBounds(boardWidth / 2 - 30, boardHeight / 2 + 10, 60, 50);
         restart.setVisible(false);
         add(restart);
         restart.setOpaque(false);
@@ -281,6 +286,15 @@ public class ChromeDino extends JPanel implements KeyListener {
     }
 
     public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int bgR = (int) (255 * (1 - nightAlpha) + 20 * nightAlpha);
+        int bgG = (int) (255 * (1 - nightAlpha) + 20 * nightAlpha);
+        int bgB = (int) (255 * (1 - nightAlpha) + 50 * nightAlpha);
+        g.setColor(new Color(bgR, bgG, bgB));
+        g.fillRect(0, 0, boardWidth, boardHeight);
+
         for (Volcano volcano : volcanoes) {
             g.drawImage(volcano.img, volcano.x, volcano.y, volcano.width, volcano.height, null);
         }
@@ -293,26 +307,56 @@ public class ChromeDino extends JPanel implements KeyListener {
         for (Track track : tracks) {
             g.drawImage(track.img, track.x, track.y, track.width, track.height, null);
         }
-
         for (Cloud cloud : clouds) {
             g.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height, null);
         }
-
         for (Block block : cactusList) {
             g.drawImage(block.img, block.x, block.y, block.width, block.height, null);
         }
 
         g.drawImage(dino.img, dino.x, dino.y, dino.width, dino.height, null);
-        if (gameOver) {
-            g.drawImage(gameOverImg, boardWidth / 4, boardHeight / 4, 386, 40, null);
-            g.drawImage(restartImg, boardWidth / 2 - 40, boardHeight / 2, 76, 68, null);
-            restart.setVisible(true);
-        }
-        g.setColor(Color.black);
+
+        Color textColor = nightAlpha > 0.5f ? Color.WHITE : Color.BLACK;
         g.setFont(new Font("Courier", Font.PLAIN, 24));
+
         if (gameOver) {
-            g.drawString("Game Over: " + String.valueOf(score), 10, 35);
-            g.drawString("High Score:" + String.valueOf(bestScore), 550, 35);
+            g2d.setColor(new Color(0, 0, 0, (int) (80 * (1 - nightAlpha) + 50 * nightAlpha)));
+            g2d.fillRect(0, 0, boardWidth, boardHeight);
+
+            g.drawImage(gameOverImg, boardWidth / 4, 30, 386, 40, null);
+
+            boolean isNewBest = bestScore > prevBestScore;
+            int panelX = boardWidth / 2 - 175;
+            int panelY = 82;
+            int panelW = 350;
+            int panelH = isNewBest ? 88 : 68;
+
+            g2d.setColor(new Color(0, 0, 0, 160));
+            g2d.fillRoundRect(panelX, panelY, panelW, panelH, 12, 12);
+            g2d.setColor(new Color(255, 255, 255, 50));
+            g2d.setStroke(new BasicStroke(1f));
+            g2d.drawRoundRect(panelX, panelY, panelW, panelH, 12, 12);
+
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Courier", Font.BOLD, 22));
+            g.drawString("Score: " + score, panelX + 15, panelY + 28);
+
+            g.setFont(new Font("Courier", Font.PLAIN, 18));
+            g.setColor(new Color(210, 210, 210));
+            g.drawString("Best:  " + bestScore, panelX + 15, panelY + 52);
+
+            if (isNewBest) {
+                g.setFont(new Font("Courier", Font.BOLD, 18));
+                g.setColor(new Color(255, 215, 0));
+                g.drawString("★ NEW BEST!", panelX + 105, panelY + 78);
+            }
+
+            int restartX = boardWidth / 2 - 38;
+            int restartY = panelY + panelH + 12;
+            g.drawImage(restartImg, restartX, restartY, 76, 68, null);
+            restart.setBounds(restartX, restartY, 76, 68);
+            restart.setVisible(true);
+
         } else {
             if (flashTimer > 0) {
                 if ((flashTimer / 8) % 2 == 0) {
@@ -324,6 +368,7 @@ public class ChromeDino extends JPanel implements KeyListener {
                         g.drawString("High Score:" + String.valueOf(bestScore), 550, 35);
                 }
             } else {
+                g.setColor(textColor);
                 g.drawString(String.valueOf(score), 10, 35);
                 g.drawString("High Score:" + String.valueOf(bestScore), 550, 35);
             }
@@ -331,8 +376,32 @@ public class ChromeDino extends JPanel implements KeyListener {
     }
 
     public void move() {
-        if (gameOver || !gameStarted)
+        if (gameOver) return;
+
+        if (nightMode) nightAlpha = Math.min(1f, nightAlpha + 0.012f);
+        else nightAlpha = Math.max(0f, nightAlpha - 0.012f);
+
+        if (dying) {
+            dinoVelocityY += dinoGravity;
+            dino.y += dinoVelocityY;
+            if (dino.y >= dinoY) {
+                dino.y = dinoY;
+                dinoVelocityY = 0;
+            }
+            dyingTimer++;
+            if (dyingTimer >= DYING_DURATION) {
+                dying = false;
+                gameOver = true;
+            }
             return;
+        }
+
+        if (!gameStarted) return;
+
+        if (score > 0 && score - nightToggleScore >= 700) {
+            nightToggleScore = score;
+            nightMode = !nightMode;
+        }
 
         int groundY = duckIsPressed ? dinoY + (dinoHeight - 60) : dinoY;
 
@@ -357,19 +426,24 @@ public class ChromeDino extends JPanel implements KeyListener {
         for (Track track : tracks) {
             track.x += trackVelocityX;
         }
-
         for (Cloud cloud : clouds) {
             cloud.x += cloudVelocityX;
         }
         for (Volcano volcano : volcanoes) {
             volcano.x += volcanoVelocityX;
         }
+
         for (Block block : cactusList) {
             block.x += blockVelocityX;
 
             if (collision(dino, block)) {
-                gameOver = true;
-                gameStarted = false;
+                dying = true;
+                dyingTimer = 0;
+                duckIsPressed = false;
+                dino.y = dinoY;
+                dinoVelocityY = -12;
+                dino.width = dinoWidth;
+                dino.height = dinoHeight;
                 dino.img = dinoDeadImg;
                 dieSound.stop();
                 dieSound.setFramePosition(0);
@@ -378,13 +452,14 @@ public class ChromeDino extends JPanel implements KeyListener {
                     if (b.img == birdImg)
                         b.img = birdDeadImg;
                 }
-
                 gameLoopTrack.stop();
                 placeClouds.stop();
                 placeVolcanoes.stop();
                 placeCactus.stop();
+                return;
             }
         }
+
         if (score % 1000 == 0 && score != 0 && flashTimer == 0) {
             flashTimer = 120;
             pointSound.stop();
@@ -484,10 +559,20 @@ public class ChromeDino extends JPanel implements KeyListener {
     }
 
     public void reset() {
+        prevBestScore = bestScore;
         trackVelocityX = -9;
         blockVelocityX = -9;
+        nightMode = false;
+        nightAlpha = 0f;
+        nightToggleScore = 0;
+        dying = false;
+        dyingTimer = 0;
+        duckIsPressed = false;
+        dinoVelocityY = 0;
         dino.img = dinoRunImg;
         dino.y = dinoY;
+        dino.width = dinoWidth;
+        dino.height = dinoHeight;
         gameLoopTrack.start();
         placeCactus.start();
         cactusList.clear();
@@ -509,8 +594,7 @@ public class ChromeDino extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (gameOver)
-            return;
+        if (gameOver || dying) return;
 
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (!gameStarted) {
@@ -543,8 +627,7 @@ public class ChromeDino extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (gameOver)
-            return;
+        if (gameOver || dying) return;
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             duckIsPressed = false;
@@ -556,8 +639,5 @@ public class ChromeDino extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
-
 }
-

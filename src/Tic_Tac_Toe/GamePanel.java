@@ -26,11 +26,74 @@ public class GamePanel extends JPanel {
 
     private int countX = 0;
     private int countO = 0;
+    private String difficulty = "MEDIUM";
 
     private static final Color BG_MAIN = new Color(26, 26, 46);
     private static final Color BG_CELL = new Color(22, 33, 62);
     private static final Color BG_BUTTON = new Color(15, 52, 96);
     private static final Color FG_TEXT = new Color(200, 210, 255);
+
+    public void setDifficulty(String d) {
+        this.difficulty = d;
+    }
+
+
+    private void animatePlacement(JButton button) {
+        final int[] sizes = {72, 58, 52, 50};
+        Timer timer = new Timer(38, null);
+        final int[] step = {0};
+        timer.addActionListener(e -> {
+            button.setFont(new Font("Tahoma", Font.BOLD, sizes[step[0]]));
+            step[0]++;
+            if (step[0] >= sizes.length) ((Timer) e.getSource()).stop();
+        });
+        timer.start();
+    }
+
+    private void animateWin(JButton b1, JButton b2, JButton b3, Color winBg, Color winFg) {
+        SoundManager.playWin();
+        Color baseBg = check.isSelected() ? BG_CELL : new Color(159, 196, 255);
+        Timer timer = new Timer(110, null);
+        int[] count = {0};
+        timer.addActionListener(e -> {
+            Color c = (count[0] % 2 == 0) ? winBg : baseBg;
+            b1.setBackground(c);
+            b2.setBackground(c);
+            b3.setBackground(c);
+            count[0]++;
+            if (count[0] >= 6) {
+                b1.setBackground(winBg);
+                b1.setForeground(winFg);
+                b2.setBackground(winBg);
+                b2.setForeground(winFg);
+                b3.setBackground(winBg);
+                b3.setForeground(winFg);
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
+    }
+
+    private void animateRemoval(JButton button) {
+        button.setEnabled(false);
+        Color restBg = check.isSelected() ? BG_CELL : new Color(159, 196, 255);
+        Color flashBg = new Color(110, 80, 160);
+        Timer timer = new Timer(70, null);
+        int[] step = {0};
+        timer.addActionListener(e -> {
+            if (step[0] == 0) {
+                button.setBackground(flashBg);
+            } else {
+                button.setText("");
+                button.setFont(new Font("Tahoma", Font.BOLD, 50));
+                button.setBackground(restBg);
+                button.setEnabled(true);
+                ((Timer) e.getSource()).stop();
+            }
+            step[0]++;
+        });
+        timer.start();
+    }
 
     private JButton createGameButton(String actionCommand, int x, int y, int width, int height) {
         JButton button = new JButton("");
@@ -50,11 +113,11 @@ public class GamePanel extends JPanel {
                     if (parts[0].equals("X")) {
                         button.setForeground(new Color(255, 128, 192));
                         SoundManager.playButX();
-                    }
-                    else {
+                    } else {
                         button.setForeground(new Color(0, 128, 255));
                         SoundManager.playButY();
                     }
+                    animatePlacement(button);
                     queue.add(button);
                     if (parts[0].equals("X"))
                         xo.setText("O Turn");
@@ -170,11 +233,7 @@ public class GamePanel extends JPanel {
                     check.setBackground(BG_BUTTON);
                     setBackground(BG_MAIN);
                     label.setForeground(FG_TEXT);
-                    for(JButton b : all)
-                    {
-                        b.setBackground(BG_CELL);
-                    }
-
+                    for (JButton b : all) b.setBackground(BG_CELL);
                 } else {
                     player1.setForeground(new Color(0, 128, 255));
                     player1.setBackground(new Color(159, 196, 255));
@@ -190,14 +249,10 @@ public class GamePanel extends JPanel {
                     check.setBackground(new Color(159, 196, 255));
                     setBackground(new Color(207, 223, 252));
                     label.setForeground(new Color(0, 128, 255));
-                    for(JButton b : all)
-                    {
-                        b.setBackground(new Color(159, 196, 255));
-                    }
+                    for (JButton b : all) b.setBackground(new Color(159, 196, 255));
                 }
             }
         });
-
 
         resetBut = new JButton("Reset");
         resetBut.addActionListener(new ActionListener() {
@@ -205,15 +260,13 @@ public class GamePanel extends JPanel {
                 JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
                 for (JButton b : all) {
                     b.setText("");
+                    b.setFont(new Font("Tahoma", Font.BOLD, 50));
+                    b.setEnabled(true);
                 }
                 if (xo.getText().equals("O Turn"))
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
-                for (JButton b : all) {
-                    b.setText("");
-                    b.setEnabled(true);
-                }
                 resetGrounds();
                 if (infiniteBool)
                     label.setText("Infinite Mode");
@@ -237,10 +290,8 @@ public class GamePanel extends JPanel {
 
         Random rand = new Random();
         int choice = rand.nextInt(2);
-        if (choice > 0)
-            xo.setText("X Turn");
-        else
-            xo.setText("O Turn");
+        if (choice > 0) xo.setText("X Turn");
+        else xo.setText("O Turn");
 
         back = new JButton("Back");
         back.addActionListener(new ActionListener() {
@@ -248,15 +299,13 @@ public class GamePanel extends JPanel {
                 JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
                 for (JButton b : all) {
                     b.setText("");
+                    b.setFont(new Font("Tahoma", Font.BOLD, 50));
+                    b.setEnabled(true);
                 }
                 if (xo.getText().equals("O Turn"))
                     xo.setText("O Turn");
                 else
                     xo.setText("X Turn");
-                for (JButton b : all) {
-                    b.setText("");
-                    b.setEnabled(true);
-                }
                 resetGrounds();
                 countX = 0;
                 countO = 0;
@@ -289,60 +338,45 @@ public class GamePanel extends JPanel {
         String t21 = b21.getText(), t22 = b22.getText(), t23 = b23.getText();
         String t31 = b31.getText(), t32 = b32.getText(), t33 = b33.getText();
 
+        Color bg = check.isSelected() ? winBg : winWhite;
+
         if (!t11.isEmpty() && t11.equals(t12) && t12.equals(t13)) {
-            if(check.isSelected())
-                highlight(b11, b12, b13, winBg, winFg);
-            else
-                highlight(b11, b12, b13, winWhite, winFg);
+            highlight(b11, b12, b13, bg, winFg);
             updateScore(t11);
             return true;
-        } else if (!t21.isEmpty() && t21.equals(t22) && t22.equals(t23)) {
-            if(check.isSelected())
-                highlight(b21, b22, b23, winBg, winFg);
-            else
-                highlight(b21, b22, b23, winWhite, winFg);
+        }
+        if (!t21.isEmpty() && t21.equals(t22) && t22.equals(t23)) {
+            highlight(b21, b22, b23, bg, winFg);
             updateScore(t21);
             return true;
-        } else if (!t31.isEmpty() && t31.equals(t32) && t32.equals(t33)) {
-            if(check.isSelected())
-                highlight(b31, b32, b33, winBg, winFg);
-            else
-                highlight(b31, b32, b33, winWhite, winFg);
+        }
+        if (!t31.isEmpty() && t31.equals(t32) && t32.equals(t33)) {
+            highlight(b31, b32, b33, bg, winFg);
             updateScore(t31);
             return true;
-        } else if (!t11.isEmpty() && t11.equals(t21) && t21.equals(t31)) {
-            if(check.isSelected())
-                highlight(b11, b21, b31, winBg, winFg);
-            else
-                highlight(b11, b21, b31, winWhite, winFg);
+        }
+        if (!t11.isEmpty() && t11.equals(t21) && t21.equals(t31)) {
+            highlight(b11, b21, b31, bg, winFg);
             updateScore(t11);
             return true;
-        } else if (!t12.isEmpty() && t12.equals(t22) && t22.equals(t32)) {
-            if(check.isSelected())
-                highlight(b12, b22, b32, winBg, winFg);
-            else
-                highlight(b12, b22, b32, winWhite, winFg);
+        }
+        if (!t12.isEmpty() && t12.equals(t22) && t22.equals(t32)) {
+            highlight(b12, b22, b32, bg, winFg);
             updateScore(t12);
             return true;
-        } else if (!t13.isEmpty() && t13.equals(t23) && t23.equals(t33)) {
-            if(check.isSelected())
-                highlight(b13, b23, b33, winBg, winFg);
-            else
-                highlight(b13, b23, b33, winWhite, winFg);
+        }
+        if (!t13.isEmpty() && t13.equals(t23) && t23.equals(t33)) {
+            highlight(b13, b23, b33, bg, winFg);
             updateScore(t13);
             return true;
-        } else if (!t11.isEmpty() && t11.equals(t22) && t22.equals(t33)) {
-            if(check.isSelected())
-                highlight(b11, b22, b33, winBg, winFg);
-            else
-                highlight(b11, b22, b33, winWhite, winFg);
+        }
+        if (!t11.isEmpty() && t11.equals(t22) && t22.equals(t33)) {
+            highlight(b11, b22, b33, bg, winFg);
             updateScore(t11);
             return true;
-        } else if (!t13.isEmpty() && t13.equals(t22) && t22.equals(t31)) {
-            if(check.isSelected())
-                highlight(b13, b22, b31, winBg, winFg);
-            else
-                highlight(b13, b22, b31, winWhite, winFg);
+        }
+        if (!t13.isEmpty() && t13.equals(t22) && t22.equals(t31)) {
+            highlight(b13, b22, b31, bg, winFg);
             updateScore(t13);
             return true;
         }
@@ -350,14 +384,8 @@ public class GamePanel extends JPanel {
     }
 
     private void highlight(JButton b1, JButton b2, JButton b3, Color bg, Color fg) {
-        b1.setBackground(bg);
-        b1.setForeground(fg);
-        b2.setBackground(bg);
-        b2.setForeground(fg);
-        b3.setBackground(bg);
-        b3.setForeground(fg);
-        SoundManager.playWin();
         disableButtons();
+        animateWin(b1, b2, b3, bg, fg);
     }
 
     private void disableButtons() {
@@ -368,18 +396,13 @@ public class GamePanel extends JPanel {
     public void resetGrounds() {
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
         for (JButton b : all) {
-            if(check.isSelected()) {
+            if (check.isSelected()) {
                 b.setBackground(BG_CELL);
-                b.setOpaque(true);
-                b.setBorderPainted(false);
-            }
-            else
-            {
+            } else {
                 b.setBackground(new Color(159, 196, 255));
-                b.setOpaque(true);
-                b.setBorderPainted(false);
-
             }
+            b.setOpaque(true);
+            b.setBorderPainted(false);
         }
     }
 
@@ -401,50 +424,62 @@ public class GamePanel extends JPanel {
         boolean bool = true;
         JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
         for (JButton b : all) {
-            if (b.getText().isEmpty()) bool = false;
+            if (b.getText().isEmpty()) {
+                bool = false;
+                break;
+            }
         }
         if (bool) {
             label.setText("!!Tie Game!!");
             SoundManager.playTie();
-            for (JButton b1 : all) {
-                if(check.isSelected()) {
-                    b1.setBackground(new Color(74, 63, 107));
-                    b1.setForeground(new Color(200, 210, 255));
-                    b1.setEnabled(false);
-                }
-                else
-                {
-                    b1.setBackground(new Color(180, 180, 220));
-                    b1.setForeground(new Color(200, 210, 255));
-                    b1.setEnabled(false);
-                }
+            Color tieBg = check.isSelected() ? new Color(74, 63, 107) : new Color(180, 180, 220);
+            for (JButton b : all) {
+                b.setBackground(tieBg);
+                b.setForeground(new Color(200, 210, 255));
+                b.setEnabled(false);
             }
         }
     }
 
     public void autoPlay() {
-        JButton move = findWinningMove("O");
-        if (move == null) move = findWinningMove("X");
-        if (move == null && b22.getText().isEmpty()) move = b22;
-        if (move == null) {
-            JButton[] corners = {b11, b13, b31, b33};
-            for (JButton b : corners)
-                if (b.getText().isEmpty()) {
-                    move = b;
-                    break;
-                }
-        }
-        if (move == null) {
+        JButton move = null;
+
+        if (difficulty.equals("EASY")) {
             JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
-            for (JButton b : all)
-                if (b.getText().isEmpty()) {
-                    move = b;
-                    break;
-                }
+            ArrayList<JButton> empty = new ArrayList<>();
+            for (JButton b : all) if (b.getText().isEmpty()) empty.add(b);
+            if (!empty.isEmpty()) move = empty.get(new Random().nextInt(empty.size()));
+
+        } else if (difficulty.equals("HARD")) {
+            move = findBestMoveHard();
+
+        } else {
+            move = findWinningMove("O");
+            if (move == null) move = findWinningMove("X");
+            if (move == null && b22.getText().isEmpty()) move = b22;
+            if (move == null) {
+                JButton[] corners = {b11, b13, b31, b33};
+                for (JButton b : corners)
+                    if (b.getText().isEmpty()) {
+                        move = b;
+                        break;
+                    }
+            }
+            if (move == null) {
+                JButton[] all = {b11, b12, b13, b21, b22, b23, b31, b32, b33};
+                for (JButton b : all)
+                    if (b.getText().isEmpty()) {
+                        move = b;
+                        break;
+                    }
+            }
         }
+
         if (move != null) {
             move.setText("O");
             move.setForeground(new Color(0, 128, 255));
+            SoundManager.playButY();
+            animatePlacement(move);
             xo.setText("X Turn");
             queue.add(move);
         }
@@ -458,19 +493,96 @@ public class GamePanel extends JPanel {
                 {b11, b22, b33}, {b13, b22, b31}
         };
         for (JButton[] line : lines) {
-            int countPlayer = 0;
+            int cnt = 0;
             JButton empty = null;
             for (JButton b : line) {
-                if (b.getText().equals(player)) countPlayer++;
+                if (b.getText().equals(player)) cnt++;
                 else if (b.getText().isEmpty()) empty = b;
             }
-            if (countPlayer == 2 && empty != null) return empty;
+            if (cnt == 2 && empty != null) return empty;
         }
         return null;
     }
 
+    private JButton findBestMoveHard() {
+        JButton[][] grid = {
+                {b11, b12, b13},
+                {b21, b22, b23},
+                {b31, b32, b33}
+        };
+        String[][] board = new String[3][3];
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                board[i][j] = grid[i][j].getText();
+
+        int bestScore = Integer.MIN_VALUE;
+        JButton bestMove = null;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j].isEmpty()) {
+                    board[i][j] = "O";
+                    int score = minimax(board, 0, false);
+                    board[i][j] = "";
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = grid[i][j];
+                    }
+                }
+            }
+        }
+        return bestMove;
+    }
+
+    private int minimax(String[][] board, int depth, boolean isMaximizing) {
+        String result = evaluateBoard(board);
+        if (result != null) {
+            if (result.equals("O")) return 10 - depth;
+            if (result.equals("X")) return depth - 10;
+            return 0;
+        }
+        if (isMaximizing) {
+            int best = Integer.MIN_VALUE;
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    if (board[i][j].isEmpty()) {
+                        board[i][j] = "O";
+                        best = Math.max(best, minimax(board, depth + 1, false));
+                        board[i][j] = "";
+                    }
+            return best;
+        } else {
+            int best = Integer.MAX_VALUE;
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    if (board[i][j].isEmpty()) {
+                        board[i][j] = "X";
+                        best = Math.min(best, minimax(board, depth + 1, true));
+                        board[i][j] = "";
+                    }
+            return best;
+        }
+    }
+
+    private String evaluateBoard(String[][] b) {
+        for (int i = 0; i < 3; i++) {
+            if (!b[i][0].isEmpty() && b[i][0].equals(b[i][1]) && b[i][1].equals(b[i][2])) return b[i][0];
+            if (!b[0][i].isEmpty() && b[0][i].equals(b[1][i]) && b[1][i].equals(b[2][i])) return b[0][i];
+        }
+        if (!b[0][0].isEmpty() && b[0][0].equals(b[1][1]) && b[1][1].equals(b[2][2])) return b[0][0];
+        if (!b[0][2].isEmpty() && b[0][2].equals(b[1][1]) && b[1][1].equals(b[2][0])) return b[0][2];
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if (b[i][j].isEmpty()) return null;
+        return "tie";
+    }
+
+    // ─── Infinite mode ────────────────────────────────────────────────────────
+
     public void infiniteGame() {
-        if (contor > 5) queue.poll().setText("");
+        if (contor > 5) {
+            JButton old = queue.poll();
+            if (old != null) animateRemoval(old);
+        }
     }
 
     public void infiniteGameBot() {

@@ -63,6 +63,7 @@ public class MainFrame extends JFrame {
         menuPanel.startBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!(menuPanel.secondField.getText().isEmpty() || menuPanel.firstField.getText().isEmpty())) {
+                    gamePanel.setDifficulty(menuPanel.getDifficulty());
                     cardLayout.show(contentPane, "GAME");
                     gamePanel.player1.setText(menuPanel.firstField.getText() + "-X");
                     gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");
@@ -80,6 +81,7 @@ public class MainFrame extends JFrame {
         menuPanel.infiniteMode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!(menuPanel.secondField.getText().isEmpty() || menuPanel.firstField.getText().isEmpty())) {
+                    gamePanel.setDifficulty(menuPanel.getDifficulty());
                     cardLayout.show(contentPane, "GAME");
                     gamePanel.player1.setText(menuPanel.firstField.getText() + "-X");
                     gamePanel.player2.setText(menuPanel.secondField.getText() + "-O");

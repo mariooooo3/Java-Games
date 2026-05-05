@@ -10,6 +10,7 @@ public class App extends JFrame {
     private CardLayout cardLayout;
 
 
+
     App() {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

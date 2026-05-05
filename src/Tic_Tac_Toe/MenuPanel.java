@@ -19,6 +19,23 @@ public class MenuPanel extends JPanel {
     public JButton twoBut;
     public JButton infiniteMode;
 
+    private JButton easyBut;
+    private JButton mediumBut;
+    private JButton hardBut;
+    private JLabel difficultyLabel;
+    private String selectedDifficulty = "MEDIUM";
+
+    private static final Color EASY_SEL = new Color(50, 160, 50);
+    private static final Color EASY_UNSEL = new Color(180, 220, 180);
+    private static final Color MED_SEL = new Color(200, 130, 0);
+    private static final Color MED_UNSEL = new Color(255, 220, 150);
+    private static final Color HARD_SEL = new Color(200, 50, 50);
+    private static final Color HARD_UNSEL = new Color(255, 190, 190);
+
+    public String getDifficulty() {
+        return selectedDifficulty;
+    }
+
     public MenuPanel() {
         setLayout(null);
 
@@ -65,6 +82,28 @@ public class MenuPanel extends JPanel {
         secondLabel.setBounds(322, 197, 91, 14);
         secondLabel.setVisible(false);
         add(secondLabel);
+
+
+        difficultyLabel = new JLabel("Bot Difficulty:");
+        difficultyLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+        difficultyLabel.setBounds(38, 205, 120, 16);
+        difficultyLabel.setVisible(false);
+        add(difficultyLabel);
+
+        easyBut = makeDiffButton("Easy", 38, 225, 68);
+        mediumBut = makeDiffButton("Medium", 112, 225, 80);
+        hardBut = makeDiffButton("Hard", 198, 225, 68);
+        add(easyBut);
+        add(mediumBut);
+        add(hardBut);
+
+        mediumBut.setBackground(MED_SEL);
+        mediumBut.setForeground(Color.WHITE);
+
+        easyBut.addActionListener(e -> selectDifficulty("EASY"));
+        mediumBut.addActionListener(e -> selectDifficulty("MEDIUM"));
+        hardBut.addActionListener(e -> selectDifficulty("HARD"));
+
 
         startBut = new JButton("START");
         startBut.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -120,6 +159,8 @@ public class MenuPanel extends JPanel {
                 secondField.setText("");
                 startBut.setVisible(true);
                 infiniteMode.setVisible(true);
+                setDifficultyVisible(false);
+                lblNewLabel_1.setVisible(true);
             }
         });
 
@@ -135,28 +176,69 @@ public class MenuPanel extends JPanel {
                 secondField.setText(botName);
                 startBut.setVisible(true);
                 infiniteMode.setVisible(true);
+                setDifficultyVisible(true);
+                lblNewLabel_1.setVisible(false);
             }
         });
+    }
 
+
+    private JButton makeDiffButton(String text, int x, int y, int w) {
+        JButton b = new JButton(text);
+        b.setFont(new Font("Tahoma", Font.BOLD, 11));
+        b.setBounds(x, y, w, 24);
+        b.setFocusPainted(false);
+        b.setBorderPainted(false);
+        b.setOpaque(true);
+        b.setVisible(false);
+        return b;
+    }
+
+    private void selectDifficulty(String d) {
+        selectedDifficulty = d;
+
+        easyBut.setBackground(EASY_UNSEL);
+        easyBut.setForeground(new Color(30, 100, 30));
+        mediumBut.setBackground(MED_UNSEL);
+        mediumBut.setForeground(new Color(120, 70, 0));
+        hardBut.setBackground(HARD_UNSEL);
+        hardBut.setForeground(new Color(150, 30, 30));
+
+        switch (d) {
+            case "EASY":
+                easyBut.setBackground(EASY_SEL);
+                easyBut.setForeground(Color.WHITE);
+                break;
+            case "HARD":
+                hardBut.setBackground(HARD_SEL);
+                hardBut.setForeground(Color.WHITE);
+                break;
+            default:
+                mediumBut.setBackground(MED_SEL);
+                mediumBut.setForeground(Color.WHITE);
+                break;
+        }
+    }
+
+    private void setDifficultyVisible(boolean v) {
+        difficultyLabel.setVisible(v);
+        easyBut.setVisible(v);
+        mediumBut.setVisible(v);
+        hardBut.setVisible(v);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(255, 255, 255, 180));
         g2.fillRoundRect(20, 70, 465, 230, 25, 25);
     }
 
     public String getBotName() {
         Random rand = new Random();
-        int choice = rand.nextInt(5);
-
-        switch (choice) {
+        switch (rand.nextInt(5)) {
             case 0:
                 return "Bot Greg";
             case 1:

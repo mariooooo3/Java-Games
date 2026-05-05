@@ -18,10 +18,13 @@ Dino Adventure is a Java desktop game inspired by the iconic **Chrome Dinosaur**
 * Jump and duck mechanics to dodge obstacles at different heights
 * Randomized obstacle generation — small cacti, big cacti, and birds at 3 altitudes
 * Progressive difficulty — game speed increases every 10 seconds
+* Dynamic day/night cycle — background transitions smoothly between day and night every 700 points
 * Animated backgrounds — erupting volcano and gas station scenery
+* Death bounce animation — the dinosaur bounces before the game over screen appears
 * Real-time collision detection with hitbox padding for fairness
 * Live score display and persistent high score per session
 * Score flash effect — every 1000 points the score flashes red with a sound cue
+* "★ NEW BEST!" golden indicator on the game over screen when a new high score is set
 * Sound effects — jump, point milestone, and death sounds
 * Game Over screen with clickable restart button
 * Automatic cleanup of off-screen obstacles to maintain performance
@@ -50,11 +53,14 @@ Cacti and birds spawn every 1.5 seconds and move from right to left. Birds appea
 ### Speed
 Every 10 seconds the track and obstacle velocity increases, making survival progressively harder.
 
+### Night Mode
+Every 700 points the scene transitions smoothly between day and night. The background darkens gradually and the score text switches from black to white for readability.
+
 ### Scoring
-Score increases every frame while the dinosaur is alive. Every 1000 points a sound plays and the score flashes red. The high score is kept for the duration of the session.
+Score increases every frame while the dinosaur is alive. Every 1000 points a sound plays and the score flashes red. The high score is kept for the duration of the session. A "★ NEW BEST!" indicator appears on the game over panel if the previous best is beaten.
 
 ### Game Over
-The game ends if the dinosaur collides with any obstacle. All animations stop, sounds halt, and the final score is displayed.
+When the dinosaur hits an obstacle it bounces briefly before the game over screen appears. All timers stop and the final score is displayed alongside the session best.
 
 ---
 

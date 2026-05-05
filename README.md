@@ -19,21 +19,21 @@ The portfolio will grow over time as I continue to build new games and experimen
 ## Current Games
 
 ### Tic Tac Toe
-A Java Swing implementation of the classic game featuring multiple modes and smart AI.
+A Java Swing implementation of the classic game featuring multiple modes, animated piece placement, and a three-tier AI (Easy / Medium / Hard Minimax).
 
 📁 Repository: [Tic Tac Toe](./src/Tic_Tac_Toe)
 
 ---
 
 ### MaffyBird (Flappy Bird Clone)
-A Java Swing clone of the famous **Flappy Bird** game featuring real-time gameplay, collision detection, and dynamic pipe generation.
+A Java Swing clone of the famous **Flappy Bird** game featuring real-time gameplay, collision detection, dynamic pipe and meteor generation, and a collectible shield power-up.
 
 📁 Repository: [MaffyBird](./src/MaffyBird)
 
 ---
 
 ### Chrome Dino
-A Java Swing recreation of the classic Chrome Dino offline game featuring endless runner mechanics, obstacle generation, increasing difficulty over time, and smooth jump controls.
+A Java Swing recreation of the classic Chrome Dino offline game featuring endless runner mechanics, obstacle generation, a dynamic day/night cycle, increasing difficulty over time, and smooth jump and duck controls.
 
 📁 Repository: [Chrome Dino](./src/ChromeDino)
 

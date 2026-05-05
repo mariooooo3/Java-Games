@@ -20,10 +20,14 @@ MaffyBird is a Java desktop game inspired by the classic **Flappy Bird**, built 
 * Gravity and jump physics via velocity system
 * Dynamic pipe generation with randomized heights
 * Meteor obstacle system that activates after reaching a score of 5
-* Real-time collision detection for both pipes and meteors
+* Shield power-up — collectible golden ★ orb that makes the bird immune to meteors for 3 seconds
+* Visual shield effect with a blue glow ring and a countdown bar displayed on screen
+* Real-time collision detection for pipes, meteors, and power-ups
+* "★ NEW BEST!" golden banner on the game over screen when a new high score is set
 * Sound effects for jumping, scoring, and game over
 * Persistent high score saved locally to the user's home directory
 * Menu screen with high score display
+* Back button available during gameplay to return to the main menu
 
 ---
 
@@ -38,11 +42,14 @@ Pipes spawn every 1.5 seconds and move from right to left with randomized gap po
 ### Meteors
 Once the player reaches a score of 5, meteors begin spawning every 3 seconds. They move diagonally, adding an extra layer of difficulty.
 
+### Power-Ups
+Every 10 seconds a golden ★ orb spawns at a random height. Collecting it activates a shield that renders the bird immune to meteor collisions for 3 seconds. A shield bar at the top of the screen shows the remaining duration.
+
 ### Scoring
-Each pipe successfully passed increases the score by 1. The high score is saved between sessions.
+Each pipe successfully passed increases the score by 1. The high score is saved between sessions. If a new high score is reached, a "★ NEW BEST!" banner appears on the game over screen.
 
 ### Game Over
-The game ends if the bird collides with a pipe, a meteor, or the ground.
+The game ends if the bird collides with a pipe, a meteor (without an active shield), or the ground.
 
 ---
 
